@@ -1,0 +1,130 @@
+
+# html lang
+language: zh-CN
+
+# main menu navigation
+menu:
+  Home: index.html
+  Archives: archives
+  Tags: tags
+  Categories: categories
+  About: about
+  Github: https://github.com/stiekel
+
+social:
+  GitHub: https://github.com/stiekel
+  Weibo: http://weibo.com/sidcn
+  M: histkc@gmail.com
+
+# Google analytics
+google_analytics: false
+# Baidu tongji
+baidu_analytics: false
+# Disqus
+disqus_shortname:
+# Uyan
+uyan_id:
+# jiaThis id
+# if you want to change the style of jiaThis, please go to chage the following file:
+# theme/random/layouts/includes/jiathis.swig
+jiaThis_uid: 
+jiathisConfig:
+  data_track_clickback: true
+  summary: ""
+  showClose: true
+  shortUrl: false
+  hideMore: false
+
+# Valine 评论 https://valine.js.org
+valine:
+  enable: false # set true if you want to use
+  appId: #your leancloud appId
+  appKey: #your leancloud appKey
+  guest_info: nick,mail,link #valine comment header info
+  placeholder: # valine comment input placeholder(like: Please leave your footprints )
+  avatar: robohash # gravatar style https://valine.js.org/avatar
+  pageSize: 10 # comment list page size
+  verify: false # valine verify code (true/false)
+  notify: true # valine mail notify (true/false) 
+  lang: en
+  visit_analytics: true
+
+# Miscelaneous
+favicon: /hollow.ico
+
+# stylesheets loaded in the <head>
+stylesheets:
+- /css/random.css
+- /css/vegas.min.css
+- /css/highlight-railscasts.css
+- /css/jquery.fancybox.css
+- /css/iconfont/iconfont.css
+- /css/jquery.fancybox-thumbs.css
+- /css/plyr.css
+
+# scripts loaded in the end of the body
+scripts:
+- /js/jquery-2.2.3.min.js
+- /js/vegas.min.js
+- /js/random.js
+- /js/highlight.pack.js
+- /js/jquery.mousewheel.pack.js
+- /js/jquery.fancybox.pack.js
+- /js/jquery.fancybox-thumbs.js
+- /js/plyr.js
+
+# ignore visitor statistics on special server, for example on you local computer or debugging server
+isIgnoreSpecialHostVisitor: true
+ignoreHostList:
+  - localhost
+  - 127.0.0.1
+
+# if you want to turn off the background images, pleaase set this value as true
+turnoffBackgroundImage: 
+  # home page
+  index: false
+  # arcihve / categories / tags
+  post_list: false
+  # post and page
+  post: false
+# when you turn off backgrounds, you can set a background color.
+backgroundColor: 34495E
+ 
+backgroundImages:
+# - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_1.jpg?imageView2/1/w/__width__/h/__height__
+# - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_2.jpg?imageView2/1/w/__width__/h/__height__
+# - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_3.jpg?imageView2/1/w/__width__/h/__height__
+# - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_4.jpg?imageView2/1/w/__width__/h/__height__
+# - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_5.jpg?imageView2/1/w/__width__/h/__height__
+
+vegasConfig:
+  # more about config http://vegas.jaysalvat.com/documentation/settings/
+  # animation: 'random'
+  # transition: 'swirlRight'
+  preload­Image: true
+  transition:
+    # - slideLeft2
+    # - slideRight2
+    # - zoomIn
+    # - swirLeft
+    # - swirRight
+    - flash
+    # - flash2
+  timer: true
+  delay: 1500000
+  shuffle: true
+  count: 12
+
+unsplashConfig:
+  # more about config on https://unsplash.it/
+  # blur: true
+  gravity: 'center' # north, east, south, west, center
+  # greyscale: true
+
+avatar: https://avatars2.githubusercontent.com/u/2735087?s=60&u=775d4033139cae6b23c593bcf59fa433224ba4e3&v=4
+
+# do not like fancybox, set this as false, this will turn it off
+fancybox: true
+
+# set the visibility of hide button in left bottom.
+hideButtonVisibility: true
