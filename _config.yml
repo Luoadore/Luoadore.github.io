@@ -3,7 +3,6 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-avatar: http://7te9fe.com1.z0.glb.clouddn.com/default_avatar.jpg
 title: Hexo
 subtitle: ''
 description: ''
@@ -104,4 +103,7 @@ theme: butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/luoadore/luoadore.github.io
+  # example, https://github.com/hexojs/hexojs.github.io
+  branch: gh-pages
