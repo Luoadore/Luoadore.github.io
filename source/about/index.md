@@ -4,9 +4,11 @@ date: 2020-10-29 06:17:29
 type: "about"
 comments: false
 ---
-<div id="app" style="width:750px;margin: 0 auto;padding:40px;box-sizing:border-box;">
+<div id="app" style="width:100%;margin: 0 auto;padding:40px;box-sizing:border-box;">
     <div class="user-info" style="display:flex;align-items:center">
-      <div class="user-infoHead" style="width: 140px; height: 200px;background-color: #ccc;"></div>
+      <div class="user-infoHead" style="height: 200px;background-color: #ccc;">
+      <img src="https://i.loli.net/2020/10/29/P2GKLdf6xnMNHXb.jpg" style="max-height:200px;">
+      </div>
       <div class="user-textInfo" style="margin-left: 40px;text-align:center">
         <div class="user-name" style="color:#333;font-weight:blod;font-size:40px;color:#3975cf">Yanan Luo</div>
         <div class="user-company" style="font-size:16px;color:#999;">Tencent, Shenzhen, China</div>

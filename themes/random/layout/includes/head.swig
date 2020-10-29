@@ -19,7 +19,9 @@
 <html lang="{{ config.language }}">
 <head>
   <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  {% if page.type !== 'about' %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endif %}
   {% if config.author %}
   <meta name="author" content="{{config.author}}">
   {% endif %}
