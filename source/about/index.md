@@ -85,7 +85,7 @@ comments: false
         </div>
         <div style="display: flex;align-items: center;padding:10px 0;">
           <div style="border: 1px solid #3975cf;background:#fff;border-radius:50%;width:10px;height:10px;margin-right: 10px;"></div>
-          <div>Develop Environment: Linux, xshell, vim</div>
+          <div>Develop Environment: Linux, vim</div>
         </div>
       </div>
     </div>
