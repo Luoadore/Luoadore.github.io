@@ -88,10 +88,10 @@ turnoffBackgroundImage:
   # post and page
   post: false
 # when you turn off backgrounds, you can set a background color.
-backgroundColor: 34495E
+backgroundColor: 576094
  
 backgroundImages:
-  - https://raw.githubusercontent.com/nku-palette/palette/luo-code/design/index.png
+  - http://cdn.chenqihulk.cn/luo.jpeg
 # - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_2.jpg?imageView2/1/w/__width__/h/__height__
 # - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_3.jpg?imageView2/1/w/__width__/h/__height__
 # - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_4.jpg?imageView2/1/w/__width__/h/__height__
@@ -110,9 +110,9 @@ vegasConfig:
     # - swirRight
     - flash
     # - flash2
-  timer: true
+  timer: false
   delay: 1500000
-  shuffle: true
+  shuffle: false
   count: 12
 
 unsplashConfig:
@@ -127,4 +127,4 @@ avatar: https://avatars2.githubusercontent.com/u/2735087?s=60&u=775d4033139cae6b
 fancybox: true
 
 # set the visibility of hide button in left bottom.
-hideButtonVisibility: true
+hideButtonVisibility: false
