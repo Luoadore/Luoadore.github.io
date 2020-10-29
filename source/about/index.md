@@ -140,7 +140,10 @@ comments: false
           </div>
           <div style="display: flex;align-items: center;padding:10px 0;">
             <div style="border: 1px solid #3975cf;background:#fff;border-radius:50%;width:10px;height:10px;margin-right: 10px;"></div>
-            <div>Project Leader in Scene Recognition for OPPO, proving service to millions of people.</div>
+            <div>Project Leader in Scene Recognition for OPPO, proving service to millions of people.
+            <div style="padding-left:20px;font-size:16px;color:#999;"><i>Form and record an AI image recognition system methodology on Youtu’s social network official account</i></div>
+            <div style="padding-left:20px;font-size:16px;color:#999;"><i>Typical cases and trials of Youtu image label recognition.</i></div>
+            </div>
           </div>
           <div style="display: flex;align-items: center;padding:10px 0;">
             <div style="border: 1px solid #3975cf;background:#fff;border-radius:50%;width:10px;height:10px;margin-right: 10px;"></div>
