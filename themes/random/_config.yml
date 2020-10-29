@@ -9,10 +9,10 @@ menu:
   Tags: tags
   Categories: categories
   About: about
-  Github: https://github.com/stiekel
+  Github: https://github.com/Luoadore/
 
 social:
-  GitHub: https://github.com/stiekel
+  GitHub: https://github.com/Luoadore/
   Weibo: http://weibo.com/sidcn
   M: histkc@gmail.com
 
@@ -91,7 +91,7 @@ turnoffBackgroundImage:
 backgroundColor: 34495E
  
 backgroundImages:
-# - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_1.jpg?imageView2/1/w/__width__/h/__height__
+  - https://raw.githubusercontent.com/nku-palette/palette/luo-code/design/index.png
 # - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_2.jpg?imageView2/1/w/__width__/h/__height__
 # - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_3.jpg?imageView2/1/w/__width__/h/__height__
 # - http://7te9fe.com1.z0.glb.clouddn.com/bgimg_4.jpg?imageView2/1/w/__width__/h/__height__

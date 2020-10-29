@@ -3,13 +3,20 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Luoadore
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
-language: en
+author: Luoadore
+language: zh-cn
 timezone: ''
+
+menu:
+  首页: /
+  文章: /archives
+  标签: /tags
+  分类: /categories
+  关于: /about
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
@@ -98,7 +105,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: butterfly
+theme: random
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
