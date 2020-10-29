@@ -1,0 +1,559 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="zh_Hans">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <meta name="author" content="Luoadore">
+  
+  
+  
+  
+    <meta name="description" content="[TOC]
+ToB中的图像多标签识别一、概述定义问题
+这个Tob项目到底是什么？​        现实生活中，人们通常会使用手机拍摄保存自己所看所闻的场景。因此，对相册中的照片场景及相关进行识别分类，帮助人们更快速整理照片成了一种不可或缺的需求。
+​        拍摄的画面，到底包含了什么，又属于怎样的场景？就是图像多标签项目想要做的事。       
+
+标签都有什么？标签的特性？标签根据...">
+  
+  <title>图像多标签识别 [ Luoadore ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2020/10/29/hello-world/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Hello World
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://avatars0.githubusercontent.com/u/27325158?s=460&u=943b90cabcb08165803593378c6afd6bca967ec5&v=4"/>
+          <div id="homelink">Luoadore</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post">
+    <h1>图像多标签识别</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2020-10-29</span>
+      
+        <span id = "post-title-updated">修改于 2020-10-29</span>
+      
+      
+      
+        <span id = "post-title-tags">
+          标签
+          
+          
+            
+            
+            <a href="/tags/%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB/">图像识别</a>
+          
+        </span>
+      
+      <span id="/2020/10/29/imgTags/" class="leancloud-visitors" data-flag-title="图像多标签识别">
+        <i class="leancloud-visitors-count"></i>
+        <em class="post-meta-item-text"> views </em>
+      </span>
+    </p>
+    
+    <p>[TOC]</p>
+<h1 id="ToB中的图像多标签识别"><a href="#ToB中的图像多标签识别" class="headerlink" title="ToB中的图像多标签识别"></a>ToB中的图像多标签识别</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p><code>定义问题</code></p>
+<h3 id="这个Tob项目到底是什么？"><a href="#这个Tob项目到底是什么？" class="headerlink" title="这个Tob项目到底是什么？"></a>这个Tob项目到底是什么？</h3><p>​        现实生活中，人们通常会使用手机拍摄保存自己所看所闻的场景。因此，对相册中的照片场景及相关进行识别分类，帮助人们更快速整理照片成了一种不可或缺的需求。</p>
+<p>​        拍摄的画面，到底包含了什么，又属于怎样的场景？就是图像多标签项目想要做的事。       </p>
+<p><img src="/2020/10/29/imgTags/results.png" alt="results"></p>
+<h3 id="标签都有什么？标签的特性？"><a href="#标签都有什么？标签的特性？" class="headerlink" title="标签都有什么？标签的特性？"></a>标签都有什么？标签的特性？</h3><h4 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h4><p>根据相册中经常出现的画面，换句话说，如何更好地描绘人们的日常生活，选定了400+个标签，概括一下主要分为以下八大类标签 ：</p>
+<ul>
+<li>人物：成人，合影等</li>
+<li>动物：猫，狗等，包含长尾标签，例如具体的贵宾犬、苏格兰折耳猫等</li>
+<li>植物：花、树等，包含长尾标签</li>
+<li>食物：水果、牛排等，包含长尾标签</li>
+<li>物品：服饰、乐器等，包含长尾标签</li>
+<li>场景：超市、办公室、建筑等</li>
+<li>事件：唱歌、运动等</li>
+<li>文档：票据、课程表、绘画等</li>
+</ul>
+<p><em>标签并无体系，八大类是后期梳理结果</em></p>
+<h4 id="标签特性"><a href="#标签特性" class="headerlink" title="标签特性"></a>标签特性</h4><p>这批标签存在以下<code>四非</code>，是问题<strong>最大难点所在</strong>。</p>
+<ul>
+<li><p>标签<code>非体系化</code>：即层级关系，存在大类和细分类并存情况。例如：猫和苏格兰折耳猫。</p>
+</li>
+<li><p>标签<code>非原子性</code>：类别可能涵盖的形式种类繁多。例如唱歌的形式多种多样，单人站立唱歌，多人站立唱歌，多人带动作唱歌等</p>
+</li>
+<li><p>标签<code>非独立性</code>：即相关关系，存在两个类别既不互斥也不完全相同的情况。例如绘画和卡通，如果绘画恰巧是卡通人物，则也属于卡通，但是并不是所有的卡通都属于绘画。</p>
+</li>
+<li><p>标签<code>非单一性</code>：即因果关系，存在有一必有二的情况。例如照片中存在森林和丛林，必然存在树。</p>
+</li>
+</ul>
+<h3 id="验收指标"><a href="#验收指标" class="headerlink" title="验收指标"></a>验收指标</h3><p>284类标签达到具体指标（各大类目标签均有具体数量）：</p>
+<ul>
+<li>183类标签达到准召90/50水平</li>
+<li>78类标签达到准召80/40水平</li>
+<li>23类文档较难做，最好达到90/50，若困难，则优先召回达到65%以上</li>
+</ul>
+<p>一个CV项目的完成，依靠的是数据、算法、推理三块能力，接下来也会按照这个顺序来依次做详细的介绍。</p>
+<h2 id="二、数据集构造"><a href="#二、数据集构造" class="headerlink" title="二、数据集构造"></a>二、数据集构造</h2><p><code>数据管理</code></p>
+<h3 id="数据集初始化"><a href="#数据集初始化" class="headerlink" title="数据集初始化"></a>数据集初始化</h3><p>为了保证数据集的<code>完整性</code>及<code>多样性</code>，主要从以下三个方面构建项目数据集。</p>
+<h4 id="公开数据集"><a href="#公开数据集" class="headerlink" title="公开数据集"></a>公开数据集</h4><ul>
+<li><p>open-images v5 [1]</p>
+<p>Open images 数据集是Google提出的数据集，在<a target="_blank" rel="noopener" href="https://storage.googleapis.com/openimages/web/index.html">OID-dataset</a>中详细的介绍了数据集的基本信息，不仅如此，<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1811.00982.pdf">OID-paper</a>中还详细地从数据集构造、数据如何标注、模型训练及测评等多个角度进行了介绍。由于数据全部来自Flickr，因此更符合真实场景。涵盖8000+类别及900w数据的多标签数据集，作为项目数据集初始化很适合，而且论文中的方法和经验也有很多值得借鉴的地方。</p>
+<ul>
+<li>标签映射：将OID数据集标签翻译并选择合适标签映射到项目标签</li>
+<li>数据集构建：按照映射，选择人工标注过的相应数据</li>
+</ul>
+</li>
+</ul>
+<h4 id="爬取数据"><a href="#爬取数据" class="headerlink" title="爬取数据"></a>爬取数据</h4><ul>
+<li><p>公开数据集缺陷</p>
+<p>由于项目背景是国内场景，OID数据集存在以下两种情况的缺陷：</p>
+<ul>
+<li>国外不存在一些场景，例如文档类；</li>
+<li>场景虽满足但是全部为国外，存在覆盖度不足的情况，例如餐厅、博物馆等</li>
+<li>长尾标签数量较少，例如猫狗细分类</li>
+</ul>
+<p>以上三种情况，都需要爬取一定的数据做补充。</p>
+</li>
+<li><p>客户定义覆盖度</p>
+<p>在和客户合作中，迭代模型输出测试结果发现，有些标签其定义范围比我们自有情况更大，客户会提供少量示例图集，因此也需要爬取数据增大标签覆盖度。</p>
+</li>
+</ul>
+<h4 id="内部积累数据"><a href="#内部积累数据" class="headerlink" title="内部积累数据"></a>内部积累数据</h4><p>部门和公司其他内部合作积累的数据，更符合国内的场景，这部分数据也做相应的标签映射，用于构造数据集。</p>
+<p>主要有以下两种方式（通过内部工具）：</p>
+<ul>
+<li>关键字爬取：输入标签名直接进行爬取，并且由标注人员核验数据是否符合</li>
+<li>以图搜图式爬取：搜图，直接上传示例图片，标注人员将搜索结果中符合示例图片的数据爬取保存</li>
+</ul>
+<p>至此，数据集初始化完成，数据量大概在90w的量级，每个数据的标签量在4个左右。</p>
+<p>但是数据集仍然存在很多问题，具体在之后的数据集模块及算法模块详细阐述。</p>
+<h3 id="数据集清洗"><a href="#数据集清洗" class="headerlink" title="数据集清洗"></a>数据集清洗</h3><p>一个大数量级的数据集通常存在两个问题，一个是<strong>漏标签</strong>，一个是<strong>错标注</strong>。</p>
+<p>项目中的数据也存在这样的情况，而如何做数据清洗去解决这些问题，是改善模型的一个基本关键之一。</p>
+<p>而面对庞大的数据量，kaiming [3] 也曾在论文中提到过，当一个标签的数据量达到某个边界时，其错标或漏标对整个模型表现的影响几乎为0，因此，数据集清洗的流程是要建立在模型已有结果的基础上的。</p>
+<p>这里先假设已有baseline及相应的测评结果，便可剔除超出临界点的标签，将清洗工作专注在部分标签上。</p>
+<p>针对这两种情况，清洗的方法一致：</p>
+<ul>
+<li><p>提取数据</p>
+<p>以标签为单位，提取该标签下的所有数据。</p>
+</li>
+<li><p>构建伪标签</p>
+<p>对于每一个数据，它的标签主要可分成如下几种形式：</p>
+<ul>
+<li><p>数据本身的标签</p>
+</li>
+<li><p>baseline模型预测结果top5中高于0.5阈值的标签</p>
+</li>
+<li><p>竞品（主要是百度图像识别API）预测结果映射到项目标签</p>
+</li>
+</ul>
+</li>
+<li><p>清洗</p>
+<ul>
+<li>标注标准：细化并撰写标注文档，指定文档格式，重点对每个标签特有属性进行定义及区分，指导标注人员提高关注点</li>
+<li>标注可视化：每天随机可视化标注结果，抽检并对理解不当标注做强调，将标注准确率控制在90%左右</li>
+<li>更新数据集标注</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据集划分"><a href="#数据集划分" class="headerlink" title="数据集划分"></a>数据集划分</h3><p>以标签为基本单位，按照9：1划分为训练和验证集，验证集即为自有测试集，用于迭代交付中指标的核验。</p>
+<h2 id="三、解决思路"><a href="#三、解决思路" class="headerlink" title="三、解决思路"></a>三、解决思路</h2><p><code>解决问题</code></p>
+<h3 id="算法模型"><a href="#算法模型" class="headerlink" title="算法模型"></a>算法模型</h3><h4 id="初期尝试"><a href="#初期尝试" class="headerlink" title="初期尝试"></a>初期尝试</h4><p>在接手这个项目时，之前的同事已经做了一种方案，即</p>
+<p>将标签具体分为12个类目，训练相应的小模型，之后再合并到一起推理出结果。</p>
+<p>这种分治的思想不够适用，是因为标签本身的特性导致的，因此同事也提到迭代优化难的问题。</p>
+<h4 id="确定路线"><a href="#确定路线" class="headerlink" title="确定路线"></a>确定路线</h4><p>调研了一些图像多标签的论文及实际应用场景，发现很少会有类似的落地项目，大多是在学术的层面进行探讨，或者是nlp项目通过BERT等方式做多标签。</p>
+<p>因此，对于这个项目而言，可以借鉴的成熟经验比较少。如何入手，如何做好冷启动是一个问题。</p>
+<p>本着less is more的原则，以及对OID论文的研读，决定<strong>baseline</strong>先采用如下策略：</p>
+<ul>
+<li>模型backbone选择resnet [2]，该结构在ImageNet2015中大放异彩，其优越的收敛速度以及优化性能（模型速度和精度的平衡）是可以保障模型基本需求</li>
+<li>多标签训练策略通常是将每一个输出神经元都看成一个单独的二分类问题，因此损失函数首先想到二分交叉熵[4]</li>
+<li>端到端训练，多机多卡提升速度</li>
+</ul>
+<p>具体使用什么模型，可以先尝试几种常见的竞赛及论文中提到的模型，再对比所需推理速度和精度，权衡选择backbone。</p>
+<p>模型选定后，训练出baseline，根据测评结果和交付反馈决定优化方向。</p>
+<h3 id="训练优化"><a href="#训练优化" class="headerlink" title="训练优化"></a>训练优化</h3><h4 id="训练及收敛"><a href="#训练及收敛" class="headerlink" title="训练及收敛"></a>训练及收敛</h4><p>这里提到的都是一些常见的训练优化策略，可以把这些策略看成是一个个小的部件，但是如何组合及使用这些部件才能达到最好的效果，还是需要一些ablation study验证。</p>
+<p>题外话：做好一个项目的管理，包含了回归测试的维护，对于每个版本的模型迭代策略做好记录，消融学习能够有效的找到最佳超参。</p>
+<h5 id="Learning-rate-warmup"><a href="#Learning-rate-warmup" class="headerlink" title="Learning rate warmup"></a>Learning rate warmup</h5><p>训练初期，网络所有的参数都是随机初始化，和最终参数值相差甚远。如果初期使用太大的学习率可能会导致数值不稳定。因此，使用warmup策略，使学习率在若干epoch内由0线性增长到设置的数值，这种方式训练会更加鲁棒。[6]</p>
+<h5 id="Pretrain-model"><a href="#Pretrain-model" class="headerlink" title="Pretrain model"></a>Pretrain model</h5><p>利用已有的预训练模型，将大型数据集上训练好的已有模型知识迁移，帮助模型训练。[7] [8]</p>
+<h5 id="Cosine-learning-rate-decay"><a href="#Cosine-learning-rate-decay" class="headerlink" title="Cosine learning rate decay"></a>Cosine learning rate decay</h5><p>训练过程中的学习率调整是非常重要的。和warmup相配合，能够达到更好的收敛效果，具体做法是将学习率从指定数值按照coseine的方式降到0。[6] 假设总批次数为T，那么当训练到第t个批次时，学习率应该是</p>
+<p><img src="/2020/10/29/imgTags/coslr.png" alt="img"></p>
+<h5 id="Multistep-learning-rate-decay"><a href="#Multistep-learning-rate-decay" class="headerlink" title="Multistep learning rate decay"></a>Multistep learning rate decay</h5><p>这是一种常见的学习率线性衰减策略，根据其衰减策略也能看出，它很适用于后期模型微调时修改学习率，而且在整个模型已经处于收敛较好的情况下，即最优解附近，优化个别标签时学习率变化骤降，小步伐抵达最优解很有效。</p>
+<h4 id="数据不均衡"><a href="#数据不均衡" class="headerlink" title="数据不均衡"></a>数据不均衡</h4><p>数据不均衡是一种很常见的现象，现实生活中这些标签的分布也是呈现某些标签较多，而其他标签只是偶尔出现或者长尾的现象。</p>
+<p>但是对于神经网络来说，训练时如果数据不平衡，无论从算法本身对数据分布要求的角度，还是从损失函数的构建角度，都会对深度模型学习造成严重的影响。[9] </p>
+<p>上述原因提供了解决的依据，我们从横向和纵向两个角度出发，对数据级及特征级都加入了优化，以达到尽量减小数据不均衡对模型训练的影响，达到收敛。</p>
+<h5 id="横向——特征级"><a href="#横向——特征级" class="headerlink" title="横向——特征级"></a>横向——特征级</h5><p>kaiming大神在论文 [10] 中提出<strong>Focal loss</strong>，一方面，数据分布中存在极度不平衡；另一方面，easy example虽然在后期训练过程中损失很低，但是由于数量大，对损失的贡献还是很大导致模型始终向着易学标签方向收敛。</p>
+<p>因此，解决方法如图所示，简单直接地在训练中增加难样本权重。</p>
+<p><img src="/2020/10/29/imgTags/fc-loss.jpg" alt="fc-loss"></p>
+<p>其中，关于超参的选择需要做ablation study。</p>
+<h5 id="纵向——数据级"><a href="#纵向——数据级" class="headerlink" title="纵向——数据级"></a>纵向——数据级</h5><p>对于数据本身，我们也可以用一种有效的<strong>数据扩增</strong>方法，有效的提高不平衡数据中弱势标签的频次，通俗来讲，提升标签的存在感，即resampling [3] 。</p>
+<p>由于是多标签识别，因此resampling也需要一定的策略：</p>
+<ul>
+<li><p>重复因子设定</p>
+<ul>
+<li><p>标签级：</p>
+<p><img src="/2020/10/29/imgTags/resampling.png" alt="resampling"></p>
+<p>对于每个标签来说，至少重复一次，至多重复右侧函数返回值次</p>
+</li>
+<li><p>图像级：多个标签重复因子的最大值</p>
+</li>
+</ul>
+</li>
+<li><p>resampling函数F选择</p>
+<ul>
+<li><p>uniform</p>
+<p>函数结果即n本身</p>
+</li>
+<li><p>square root</p>
+<p>函数结果即为n开根号</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>上述两点确认之后，还需要一个阈值，即计算标签级重复因子公式中包含的t，表征标签的目标频次。</p>
+<p>自测及客户反馈结果可见，上述方法对模型性能的提升，无论是横向还是纵向都有极大的帮助，以下表格展示了在召回相差不多的情况下，性能提升的对比。</p>
+<table>
+<thead>
+<tr>
+<th>版本号</th>
+<th>优化方案</th>
+<th>精度提升</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v1.0</td>
+<td>baseline</td>
+<td>-</td>
+</tr>
+<tr>
+<td>v2.0</td>
+<td>baseline + resampling</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>v2.1</td>
+<td>baseline + resampling + focal loss</td>
+<td>3.2%</td>
+</tr>
+</tbody></table>
+<h4 id="占比小的标签"><a href="#占比小的标签" class="headerlink" title="占比小的标签"></a>占比小的标签</h4><p>这部分标签例如眼镜，通常在一个整体画面都比较小，虽然神经网络会学到各个标签之间的一些高级语义关系，但是能力有限，因此这里需要借助<strong>目标检测</strong>对这类小物体识别做辅助。</p>
+<p>由于场景多标签识别是整个项目的重点，目标检测部分作为辅助，简单使用了SSD模型 [12] ，这里不做太多阐述。</p>
+<h3 id="先验关系谱"><a href="#先验关系谱" class="headerlink" title="先验关系谱"></a>先验关系谱</h3><p>除了深度学习算法层面可以做的优化，从标签的特性来看，在后处理中也可以借助标签之间的多种关系来补足模型没有学尽的语义知识，因此，要使用<strong>先验知识构建关系图谱</strong>。</p>
+<p>这里给出关系图谱的部分示例。</p>
+<p><img src="/2020/10/29/imgTags/graph.png" alt="graph"></p>
+<p>自测及反馈显示效果显著，<strong>特别对于一些大类标签（例如运动，因种类繁多而造成特征不统一，网络难以学习得很好）有极强的提高</strong>。</p>
+<p>整个迭代过程中都能看出，ToB的图像识别项目，需要更加注意和实际场景的结合，其中有很多细节没有展现，也有很多算法尝试没有提及，这里仅展示对算法有效且成功的优化点。一个算法的优化都是以问题分析作为依托的，了解好背景及现状，抓住痛点对症下药，一定是良方。</p>
+<h2 id="四、推理"><a href="#四、推理" class="headerlink" title="四、推理"></a>四、推理</h2><p>推理是项目的重点，如何给客户输出更佳的预测结果，也是一个需要加入考虑且必不可少的环节。</p>
+<p>本文开篇就提到，项目的测评方式很直接，每一类作为单独的类别，计算准召。</p>
+<p>由此可见，在项目的迭代过程中，自测集的构建及干净程度对结果尤为重要。</p>
+<p>本章假设自测集的干净程度在95%左右，即错误标签+漏标签少于5%，如果没有达到这个标准，先按照二做相应的清洗。</p>
+<p>图像多标签的输出有别于单标签，不是简单地输出top1就可以，需要定制化阈值，每个标签进行比对再决策输出结果，这就引出了一个重要的工具：<strong>PR曲线</strong>。[11]</p>
+<p>PR曲线的构造其实是根据测试集中标签所对应的数据推理结果，不断选择梯度阈值而计算所得的结果，如下图所示。（标签名做了脱敏处理）</p>
+<p><img src="/2020/10/29/imgTags/%E5%9C%BA%E6%99%AF-%E6%9C%8D%E8%A3%85%E5%BA%97.jpg" alt="场景-服装店"></p>
+<p>由于是定制化服务，因此选择客户需要的准召对应的阈值即可达到模型的相应性能。例如图中服装店，想要达到准召90/50的标准，选择阈值0.6左右即可。</p>
+<p>多种策略相辅相成，最终大大超出客户预期完成交付。（撒花）</p>
+<h2 id="五、拓展"><a href="#五、拓展" class="headerlink" title="五、拓展"></a>五、拓展</h2><p>一个项目从前期准备到后期交付的过程中，会经历不同角色的转变，也从用户的角度更加理解图像标签能够帮助客户做什么辅助。</p>
+<p>角色转变：</p>
+<p>产品：和客户沟通，提供标签定义及相似标签分类准则，探讨用户眼中合理的层级关系</p>
+<p>数据标注员：整合标签标注标准，亲自标注寻找标注关注点，提高标注速度</p>
+<p>算法研究员：在mentor的指导下探索调研最佳方案并训练模型</p>
+<p>开发：封装，为客户方开发同学提供部署及相关维护服务</p>
+<p>测试：测评指标及和客户沟通验收测评方案</p>
+<p>不同的角色，做项目中不受限于算法研究，提升技术能力的同时，锻炼了沟通能力、项目管理能力、项目架构能力等，形成了一定的方法论，成长颇多。</p>
+<p>不仅如此，一个项目的广度远不止完成交付，还有极大的空间做扩展：</p>
+<h4 id="标签体系扩充构建"><a href="#标签体系扩充构建" class="headerlink" title="标签体系扩充构建"></a>标签体系扩充构建</h4><p>标签体系可以由400类逐步扩充，特别是场景及事件等难识别标签类。</p>
+<p>结合自有标签（超5000类），扩大标签涵盖维度，为日常生活场景识别提供更好服务。</p>
+<h4 id="定制化服务"><a href="#定制化服务" class="headerlink" title="定制化服务"></a>定制化服务</h4><p>根据客户的具体需求，加强模型对所需类别的敏感度，提供更好的定制化服务。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1811.00982.pdf">The Open Images Dataset V4</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.03385.pdf">Deep Residual Learning for Image Recognition</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_ECCV_2018/html/Dhruv_Mahajan_Exploring_the_Limits_ECCV_2018_paper.html">Exploring the Limits of Weakly Supervised Pretraining </a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/nn.html?highlight=torch%20nn%20bcewithlogitsloss#torch.nn.BCEWithLogitsLoss">torch.nn.BCEWithLogitsLoss</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Veit_Learning_From_Noisy_CVPR_2017_paper.pdf">Learning From Noisy Large-Scale Datasets With Minimal Supervision </a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1812.01187.pdf">Bag of Tricks for Image Classification with Convolutional Neural Networks</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/torchvision/models.html">pytorch model zoo</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="http://210.28.132.67/weixs/project/CNNTricks/CNNTricks.html">Must Know Tips/Tricks in Deep Neural Networks</a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://pdfs.semanticscholar.org/62e8/1797fff75603a3d7c7759e6efac4fd2b6b31.pdf?_ga=2.170141984.1403234574.1586344305-2059634718.1586344305">The Impact of Imbalanced Training Data for Convolutional Neural Networks</a></p>
+<p>[10] <a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf">Focal Loss for Dense Object Detection</a></p>
+<p>[11] <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve">sklearn.metrics.precision_recall_curve</a></p>
+<p>[12] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.02325.pdf">SSD: Single Shot MultiBox Detector</a> </p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ToB%E4%B8%AD%E7%9A%84%E5%9B%BE%E5%83%8F%E5%A4%9A%E6%A0%87%E7%AD%BE%E8%AF%86%E5%88%AB"><span class="toc-text">ToB中的图像多标签识别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="toc-text">一、概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%AATob%E9%A1%B9%E7%9B%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">这个Tob项目到底是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%EF%BC%9F%E6%A0%87%E7%AD%BE%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">标签都有什么？标签的特性？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE"><span class="toc-text">标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E7%89%B9%E6%80%A7"><span class="toc-text">标签特性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E6%94%B6%E6%8C%87%E6%A0%87"><span class="toc-text">验收指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E9%9B%86%E6%9E%84%E9%80%A0"><span class="toc-text">二、数据集构造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">数据集初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AC%E5%BC%80%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">公开数据集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-text">爬取数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E7%A7%AF%E7%B4%AF%E6%95%B0%E6%8D%AE"><span class="toc-text">内部积累数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B8%85%E6%B4%97"><span class="toc-text">数据集清洗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%92%E5%88%86"><span class="toc-text">数据集划分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-text">三、解决思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%A8%A1%E5%9E%8B"><span class="toc-text">算法模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E6%9C%9F%E5%B0%9D%E8%AF%95"><span class="toc-text">初期尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E8%B7%AF%E7%BA%BF"><span class="toc-text">确定路线</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E4%BC%98%E5%8C%96"><span class="toc-text">训练优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%8F%8A%E6%94%B6%E6%95%9B"><span class="toc-text">训练及收敛</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Learning-rate-warmup"><span class="toc-text">Learning rate warmup</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Pretrain-model"><span class="toc-text">Pretrain model</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Cosine-learning-rate-decay"><span class="toc-text">Cosine learning rate decay</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Multistep-learning-rate-decay"><span class="toc-text">Multistep learning rate decay</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%8D%E5%9D%87%E8%A1%A1"><span class="toc-text">数据不均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E7%BA%A7"><span class="toc-text">横向——特征级</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%B5%E5%90%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%BA%A7"><span class="toc-text">纵向——数据级</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%A0%E6%AF%94%E5%B0%8F%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-text">占比小的标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E9%AA%8C%E5%85%B3%E7%B3%BB%E8%B0%B1"><span class="toc-text">先验关系谱</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%8E%A8%E7%90%86"><span class="toc-text">四、推理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%8B%93%E5%B1%95"><span class="toc-text">五、拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E4%BD%93%E7%B3%BB%E6%89%A9%E5%85%85%E6%9E%84%E5%BB%BA"><span class="toc-text">标签体系扩充构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E5%8C%96%E6%9C%8D%E5%8A%A1"><span class="toc-text">定制化服务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+  
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2020/10/29/hello-world/" class="next">下一篇 Hello World &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Luoadore using
+      <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/27325158?s=460&u=943b90cabcb08165803593378c6afd6bca967ec5&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://github.com/Luoadore/">
+        
+          <i class="icon iconfont icongithub" title="github"></i> 
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a href="mailto:luoluomayday@gmail.com">
+        
+          <i class="icon iconfont iconyoujian" title="github"></i> 
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=yuDQY0YAAAAJ&hl=zh-CN">
+        
+          <i class="icon iconfont icongoogle" title="github"></i>
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/%E9%9B%85%E6%A5%A0-%E9%9B%92-84482b91/">
+        
+          <i class="icon iconfont iconlinkedin" title="github"></i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+    
+      backgroundImages.push('http://cdn.chenqihulk.cn/luo.jpeg');
+    
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":null,"timer":false,"delay":1500000,"shuffle":false,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = 576094;
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
