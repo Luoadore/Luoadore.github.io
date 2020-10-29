@@ -1,0 +1,37 @@
+{
+  "id": "2053786",
+  "name": "example",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7736104",
+      "name": "google",
+      "font_class": "google",
+      "unicode": "e8f0",
+      "unicode_decimal": 59632
+    },
+    {
+      "icon_id": "7715006",
+      "name": "linkedin",
+      "font_class": "linkedin",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "9785618",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "8652828",
+      "name": "邮件",
+      "font_class": "youjian",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    }
+  ]
+}

@@ -28,3 +28,10 @@ updated_at: Updated at
 toc: Table of Content
 hide_toc: Hide TOC
 show_toc: Show TOC
+
+home: home
+archives: archives
+tags: tags
+categories: categories
+about: about
+switch_lang: zh-CN

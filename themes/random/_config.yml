@@ -1,21 +1,18 @@
 
 # html lang
-language: zh-CN
+language: zh_Hans
 
 # main menu navigation
 menu:
-  Home: index.html
-  Archives: archives
-  Tags: tags
-  Categories: categories
-  About: about
-  Github: https://github.com/Luoadore/
+  Archives: /archives
+  Tags: /tags
+  About: /about
 
 social:
   GitHub: https://github.com/Luoadore/
-  Weibo: http://weibo.com/sidcn
-  M: histkc@gmail.com
-
+  email: luoluomayday@gmail.com
+  GoogleSchilar: https://scholar.google.com/citations?user=yuDQY0YAAAAJ&hl=zh-CN
+  LinkedIn: https://www.linkedin.com/in/%E9%9B%85%E6%A5%A0-%E9%9B%92-84482b91/
 # Google analytics
 google_analytics: false
 # Baidu tongji
@@ -108,7 +105,7 @@ vegasConfig:
     # - zoomIn
     # - swirLeft
     # - swirRight
-    - flash
+    # - flash
     # - flash2
   timer: false
   delay: 1500000
