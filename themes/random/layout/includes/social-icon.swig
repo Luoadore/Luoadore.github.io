@@ -11,11 +11,11 @@
         {% if i==='GitHub' %}
           <i class="icon iconfont icongithub" title="github"></i> 
         {% elseif i==='email' %}
-          <i class="icon iconfont iconyoujian" title="github"></i> 
+          <i class="icon iconfont iconyoujian" title="luoluomayday@gmail.com"></i> 
         {% elseif i==='GoogleSchilar' %}
-          <i class="icon iconfont icongoogle" title="github"></i>
+          <i class="icon iconfont icongoogle" title="GoogleSchilar"></i>
         {% elseif i==='LinkedIn' %}
-          <i class="icon iconfont iconlinkedin" title="github"></i>
+          <i class="icon iconfont iconlinkedin" title="LinkedIn"></i>
         {% else %}
           {{i}}
         {% endif %}
