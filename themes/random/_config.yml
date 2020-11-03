@@ -4,6 +4,7 @@ language: zh_Hans
 
 # main menu navigation
 menu:
+  Home: /
   Archives: /archives
   Tags: /tags
   About: /about
