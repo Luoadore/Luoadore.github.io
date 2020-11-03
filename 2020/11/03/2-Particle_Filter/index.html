@@ -18,10 +18,10 @@
   
   
   
-    <meta name="description" content="Kalman FilterSo what is the kalman filter?
-The kalman filter is the probabilistic states estimating technique and it’s used to estimate the state of a dynamic system. What is a dynamic system? You ...">
+    <meta name="description" content="Particle FilterSo what is a Particle filter?
+Particle filter, similar to the kalman filter, is a technique for estimating the state of a dynamic system. So it is a recursive bayes filter, which tak...">
   
-  <title>Kalman Filter [ Luoadore ]</title>
+  <title>Particle Filter [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -42,22 +42,13 @@ The kalman filter is the probabilistic states estimating technique and it’s us
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2020/11/03/2-Particle_Filter/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        Particle Filter
-      </div>
-    </div>
-  
   
     <div class="item next">
-      <a href="/2020/10/29/imgTags/">
+      <a href="/2020/11/02/1-Kalman_Filter/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        图像多标签识别
+        Kalman Filter
       </div>
     </div>
   
@@ -120,9 +111,9 @@ The kalman filter is the probabilistic states estimating technique and it’s us
   
 
   <article id="post">
-    <h1>Kalman Filter</h1>
+    <h1>Particle Filter</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2020-11-02</span>
+      <span id = "post-title-date">撰写于 2020-11-03</span>
       
         <span id = "post-title-updated">修改于 2020-11-03</span>
       
@@ -138,20 +129,22 @@ The kalman filter is the probabilistic states estimating technique and it’s us
           
         </span>
       
-      <span id="/2020/11/02/1-Kalman_Filter/" class="leancloud-visitors" data-flag-title="Kalman Filter">
+      <span id="/2020/11/03/2-Particle_Filter/" class="leancloud-visitors" data-flag-title="Particle Filter">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <h3 id="Kalman-Filter"><a href="#Kalman-Filter" class="headerlink" title="Kalman Filter"></a>Kalman Filter</h3><p>So what is the kalman filter?</p>
-<p>The kalman filter is the probabilistic states estimating technique and it’s used to estimate the state of a dynamic system. What is a dynamic system? You can consider dynamic system a mobile robot moving through the environment and you want to estimate the position or rotation of that platform based on motion commands that you sent or based on observations sensor data that you get or it can be an autonomous car and then you are steering commands maybe how is your steering angle and how much you are actually push your gas petal and maybe you have a laser range scanner installed on your car in order to observe the environment. This will serve as sends observations in order to correct your post.</p>
-<p>So the Kalman Filter is basically has two steps. A so-called <strong>Prediction</strong> step and a so-called <strong>Correction</strong> step. </p>
-<p>The prediction step stay takes the steering information into account or the motion commands into account in order to estimate in order to predict where the system will be at the next point in time. So basically this says if I go with one meter per second forward in one second of the one meter in front of me, that’s what the prediction step does. </p>
-<p>The correction step takes into account the sensor observation in order to correct for potential mistakes that  we have done. So it takes the observation into account, and compute the so-called predicted observation so what should I observe it or actually be in the state and compares those two observations with each other in order to preform a correction. So for every new command and every new measurement, we do a prediction step, correction step. Then a new command and a new observation comes in, so a new prediction step, a new correction step. So we have these procedure, these recursive procedure which always updates the previously belief and turns it into next belief. </p>
-<p>The kalman filter remains two important assumptions.  The first important assumption is that everything is Gaussian. So we’re live in a Gaussian world that means my belief about the position of platform is Gaussian and also the uncertainty that I have for example in my motion or in my observation. And the second important thing is all models are linear, that means they are the model that is involved the prediction step that estimates where will be at the next point in time. And my observation model are about linear models.  And these are actually very strong assumptions.</p>
-<p>If we are however in a Gaussian linear world the kalman filter is the optimal estimator. So you can’t do better in oder to estimate the state of a dynamic system. If you are however living in a nonlinear world, which is the actually case for most real-world applications, then kalman filter can’t be use anymore.  What you ever can do use a so-called extended kalman filter which is a variant of the kalman filter that tries to deal with these nonlinearities and what it does basically performs a local linearization, so it performs a taylor approximation of your nonlinear models and turned them into linear models given your current linearization point. So you need to recompute these linearization at every step because you will have a new initial guess to a new linearrization point.  But then it actually works in the same way as the kalman filter does,  just it adds this local linearrization to that. </p>
-<p>And the kalman filter as well as the extend kalman filter is a very popular state estimation techniques, it is one of the really basic probabilistic recursive based filters and is used in large number of different applications. For example, localizing a vehicle in the environment or tracking the position of the camera as well as local features in the environment. All those state estimation techniques which update the belief of a system giving new data uses those probabilistic state estimation techniques and the kalman filter is one of the basic approaches in order to do that. So how by give you a small idea on what that kalman filter is, what key properties are and one can be used for that you can start diving deeper.</p>
+    <h3 id="Particle-Filter"><a href="#Particle-Filter" class="headerlink" title="Particle Filter"></a>Particle Filter</h3><p>So what is a Particle filter?</p>
+<p>Particle filter, similar to the kalman filter, is a technique for estimating the state of a dynamic system. So it is a recursive bayes filter, which takes the current belief and updates the current belief based on so-called the motion information of control commands and based on observations. And its from the idea very similar to the kalman filter, but it relaxes some of the assumptions that the kalman filter does. So the key advantages of particle filter is that it can deal with nonlinear functions and it relaxes some assumptions that we are in Gaussian world. It actually allows you to describe arbitrary probability distributions and it uses a nonparametric form in order to do this.</p>
+<p>And so the idea is actually very easy to explain what the particle filter does.</p>
+<p>It says I just use a number of particles or samples which are hypotheses for system being in one single state. So if we have maintained ten thousand particles, we have ten thousand gausses or ten thousand  hypotheses in which state the system will be in. So every sample or every particle refers to one gauss that the system is in that state. So if you think that your particle would represent the position of the mobile robot platform environment for example. Then ten thousand particles will be ten thousand gausses or ten thousand hypotheses where the system could be in a world. So every particle for example would be an (X, Y), that location and your pitch roll angle in case of a sixty localization system. </p>
+<p>And what the particle filter does very similar to a kalman filter, it has <strong>Prediction</strong> step and <strong>Correction</strong> step to estimate what how other states evolve. And it can be done in a very simplistic way or can be explained in a very simplistic way. </p>
+<p>So let’s take we pick up one particle, the particle represents one state. (<strong>Prediction uses controls commands</strong>) So at a certain location looking in a certain direction if now we want to estimate how the system evolves over time given that we know we drive with ten meters per second forward for example, we can just take this particle and shift it ten meters off. This is how the system is expected to evolve given that we have been at the state where the particle was saying the platform is actually here. We additionly add some noise to this is a circle it’s called <strong>sampling from the proposal</strong> distribution taking into account that this motion is affected by noise. And then we simply repeat this for all the particles so all the particles will be move by that distance forward together with some noise centered around. </p>
+<p>Second step is called correction step, takes the observation into account. And what it basically does it says given that I’m in that position what the particles tell me how likely is it actually to obtain the observation that the real vehicle has obtained. And base on how likely it is to obtain this observation this particle will get a weight or an <strong>importance weight</strong>. So every particle which is at a different location will get a different important weight. The higher the weight, the more likely it is that this particle did the right job. Then we have a large set of state hypotheses together with the weight and the weight tells me how likely it is that the system could explain the measurement of being in that state. </p>
+<p>Then the particle filter basically has the third step which is so-called <strong>Resampling</strong> step.  Which is especially needed if you only have a limited number of particles. It performs kind of survival of the fittest principles by saying I tend to replicate particles which have a higher importance wight , and tend to forget those particles which have a low importance weight. See it as a survival of the fittest based on this importance weight. And then the process repeats so the good particles are likely to survive and the bad products are likely to die out. And then when the next observation comes in, we again move all particles forward with sample noise and  it’s associated to the motion, check again with the new observation how likely is every particle to explain the new observation that we get. We perform our resampling step and continue this process.</p>
+<p>So in sum, every particle filter  consists of a set of weighted samples. And a weighted sample is a state, hypotheses. So if it’s position is (X, Y) that your pitch roll in 3D or (X, Y) that in theta in 2D, and then we has a scalar weight, this importance weight, and this represents probability distributions actually a sum of the rack distributions or direct pulses centered in the state of particle represents and multiplied with the importance weight. </p>
+<p>The particle filter is a standard technique that is used today in a mobile robot localization, especially if you don’t have any external global sensors like a GPS sensor, especially for indoor localization task, particle filter are today the method of choice in the standard for realizing the so-called Monte Carlo localization.</p>
 
   </article>
   <div class="random-toc-area">
@@ -159,7 +152,7 @@ The kalman filter is the probabilistic states estimating technique and it’s us
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kalman-Filter"><span class="toc-text">Kalman Filter</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Particle-Filter"><span class="toc-text">Particle Filter</span></a></li></ol>
   </div>
 </div>
 
@@ -167,13 +160,11 @@ The kalman filter is the probabilistic states estimating technique and it’s us
   
 <nav id="pagination">
   
-    <a href="/2020/11/03/2-Particle_Filter/" class="prev">&larr; 上一篇 Particle Filter</a>
-  
 
   
 
   
-    <a href="/2020/10/29/imgTags/" class="next">下一篇 图像多标签识别 &rarr;</a>
+    <a href="/2020/11/02/1-Kalman_Filter/" class="next">下一篇 Kalman Filter &rarr;</a>
   
 </nav>
 
