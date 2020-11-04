@@ -18,10 +18,10 @@
   
   
   
-    <meta name="description" content="Kalman FilterSo what is the kalman filter?
-The kalman filter is the probabilistic states estimating technique and it’s used to estimate the state of a dynamic system. What is a dynamic system? You ...">
+    <meta name="description" content="Occupancy GridSo what is an occupancy grid map?
+Occupancy map is a 2D representation of the environment. And it’s very similar to the old-school map that you used to navigate through a city.  Excep...">
   
-  <title>Kalman Filter [ Luoadore ]</title>
+  <title>Occupancy Grid [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -42,22 +42,13 @@ The kalman filter is the probabilistic states estimating technique and it’s us
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
+  
+    <div class="item next">
       <a href="/2020/11/03/2-Particle_Filter/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
         Particle Filter
-      </div>
-    </div>
-  
-  
-    <div class="item next">
-      <a href="/2020/10/29/imgTags/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        图像多标签识别
       </div>
     </div>
   
@@ -120,9 +111,9 @@ The kalman filter is the probabilistic states estimating technique and it’s us
   
 
   <article id="post">
-    <h1>Kalman Filter</h1>
+    <h1>Occupancy Grid</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2020-11-02</span>
+      <span id = "post-title-date">撰写于 2020-11-06</span>
       
         <span id = "post-title-updated">修改于 2020-11-04</span>
       
@@ -138,20 +129,19 @@ The kalman filter is the probabilistic states estimating technique and it’s us
           
         </span>
       
-      <span id="/2020/11/02/1-Kalman_Filter/" class="leancloud-visitors" data-flag-title="Kalman Filter">
+      <span id="/2020/11/06/3-Occupancy_Grid/" class="leancloud-visitors" data-flag-title="Occupancy Grid">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <h3 id="Kalman-Filter"><a href="#Kalman-Filter" class="headerlink" title="Kalman Filter"></a>Kalman Filter</h3><p>So what is the kalman filter?</p>
-<p>The kalman filter is the probabilistic states estimating technique and it’s used to estimate the state of a dynamic system. What is a dynamic system? You can consider dynamic system a mobile robot moving through the environment and you want to estimate the position or rotation of that platform based on motion commands that you sent or based on observations sensor data that you get or it can be an autonomous car and then you are steering commands maybe how is your steering angle and how much you are actually push your gas petal and maybe you have a laser range scanner installed on your car in order to observe the environment. This will serve as sends observations in order to correct your post.</p>
-<p>So the Kalman Filter is basically has two steps. A so-called <strong>Prediction</strong> step and a so-called <strong>Correction</strong> step. </p>
-<p>The prediction step stay takes the steering information into account or the motion commands into account in order to estimate in order to predict where the system will be at the next point in time. So basically this says if I go with one meter per second forward in one second of the one meter in front of me, that’s what the prediction step does. </p>
-<p>The correction step takes into account the sensor observation in order to correct for potential mistakes that  we have done. So it takes the observation into account, and compute the so-called predicted observation so what should I observe it or actually be in the state and compares those two observations with each other in order to preform a correction. So for every new command and every new measurement, we do a prediction step, correction step. Then a new command and a new observation comes in, so a new prediction step, a new correction step. So we have these procedure, these recursive procedure which always updates the previously belief and turns it into next belief. </p>
-<p>The kalman filter remains two important assumptions.  The first important assumption is that everything is Gaussian. So we’re live in a Gaussian world that means my belief about the position of platform is Gaussian and also the uncertainty that I have for example in my motion or in my observation. And the second important thing is all models are linear, that means they are the model that is involved the prediction step that estimates where will be at the next point in time. And my observation model are about linear models.  And these are actually very strong assumptions.</p>
-<p>If we are however in a Gaussian linear world the kalman filter is the optimal estimator. So you can’t do better in oder to estimate the state of a dynamic system. If you are however living in a nonlinear world, which is the actually case for most real-world applications, then kalman filter can’t be use anymore.  What you ever can do use a so-called extended kalman filter which is a variant of the kalman filter that tries to deal with these nonlinearities and what it does basically performs a local linearization, so it performs a taylor approximation of your nonlinear models and turned them into linear models given your current linearization point. So you need to recompute these linearization at every step because you will have a new initial guess to a new linearrization point.  But then it actually works in the same way as the kalman filter does,  just it adds this local linearrization to that. </p>
-<p>And the kalman filter as well as the extend kalman filter is a very popular state estimation techniques, it is one of the really basic probabilistic recursive based filters and is used in large number of different applications. For example, localizing a vehicle in the environment or tracking the position of the camera as well as local features in the environment. All those state estimation techniques which update the belief of a system giving new data uses those probabilistic state estimation techniques and the kalman filter is one of the basic approaches in order to do that. So how by give you a small idea on what that kalman filter is, what key properties are and one can be used for that you can start diving deeper.</p>
+    <h1 id="Occupancy-Grid"><a href="#Occupancy-Grid" class="headerlink" title="Occupancy Grid"></a>Occupancy Grid</h1><p>So what is an occupancy grid map?</p>
+<p>Occupancy map is a 2D representation of the environment. And it’s very similar to the old-school map that you used to navigate through a city.  Except that it is stored inside a computer or inside a mobile robot and is used for navigation task. For example, for driving around, for mapping the environment, for localizing. Although these techniques typically use maps and often occupants equipments.</p>
+<p>So an occupancy grid map consists of so-called <strong>occupancy grid cells</strong>. And the occupancy grid cells refers to specific places in the environment. Let’s see a small 5x5 centimeter area, and the occupancy grid map stores the information in this cell is either occupied by an obstacle or if it is a free space. So you can see it’s very similar to a gray scale image. An image consists of pixels, and the occupancy grid map is the image and the pixel refers to an occupancy grid cell. So if it takes a value corresponding to a black color that means this place is occupied by an obstacle. If you put in a white color, it means this space is a free space. And the image you will generate from such an occupancy grid map will be very similar to architectural floor plan where for example you have dark areas indicating walls or other obstacles in the environment.  White represents the free space. </p>
+<p>The only problem we have in reality are especially if we work with mobile robot is that we are not certain if a place in environment is occupied by an obstacle or free place. We can only estimate that we typically use sensor data, noisy sensor data to do that. Therefore we maintain for every cell a probability, a probability that this cell is occupied or not. So it’s called the <strong>occupancy probability</strong>. And occupancy probability of one means the cell for sure is occupied, and occupancy probability of zero means this cell is free space for sure. And everything in between tell us I’m more or less certain that it’s either free or occupied. So the occupancy grid map is a set of those small probabilities distributions and we typically use independent probability distributions to represents that space. </p>
+<p>This is not necessarily the case in reality that the places are independent of each other. It’s just use simplify math. And the occupancy grid map typically use 3 main assumptions. First one is a place can be <strong>either occupied or free</strong>. Those grid cells are <strong>independent</strong> of each other and we typically assume the world to be <strong>static</strong>. So there’s nothing moving in the world. And then we use sensor data such as laser range finder stereo camera, RGB-D camera and so on any type of range sensor to provide us with information if we can measure cells being occupied or free.  And mathematically speaking, we use a <strong>static state binary bayes filter</strong> to estimate a probability distribution for every place. If you have a high quality sensors which can measure distances very well. You typically get very sharp maps in the environment. If you have a more noisy sensor, you may have more blurry walls and the map does not look that sharp. There has been an efficient algorithm and that has been proposed by more of a _ in 1980s in how to turn sensor information in this case sonar data into an occupancy grid map. So that we can estimate for different places in the environment if they are occupied by obstacles or if they are free spaces. And these types of map are used in large number of robotics applications today. </p>
+<p>So indoor robots for example use this type of obstacle map in order to navigate the space. It could be an intelligent _ which drive their new environment or it could be your lawnmower. So most robots actually use some form of map and often use occupancy grid map for localizing, for planning path, for mapping the environment, for exploration task, basically for everything.</p>
+<p>So these occupancy grid maps are nearly everywhere in robotics and it’s so important to understand their properties. They of course also extension of the occupancy grid maps for example for 3D spaces then it’s a small area in the environment then the map represents the voxel what so-called voxel grid in 3D. Things may become a little bit more complicated also if you have a dynamic evolved but overall they are basically using this very simple contact concept of using a single variable for a small area and environment estimating if the world is free or occupied. So I go but hope I gave you an idea how occupancy grid map work, what you can do with them and what the key properties are and they actually appear nearly every bound robotics.</p>
 
   </article>
   <div class="random-toc-area">
@@ -159,7 +149,7 @@ The kalman filter is the probabilistic states estimating technique and it’s us
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kalman-Filter"><span class="toc-text">Kalman Filter</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Occupancy-Grid"><span class="toc-text">Occupancy Grid</span></a></li></ol>
   </div>
 </div>
 
@@ -167,13 +157,11 @@ The kalman filter is the probabilistic states estimating technique and it’s us
   
 <nav id="pagination">
   
-    <a href="/2020/11/03/2-Particle_Filter/" class="prev">&larr; 上一篇 Particle Filter</a>
-  
 
   
 
   
-    <a href="/2020/10/29/imgTags/" class="next">下一篇 图像多标签识别 &rarr;</a>
+    <a href="/2020/11/03/2-Particle_Filter/" class="next">下一篇 Particle Filter &rarr;</a>
   
 </nav>
 
