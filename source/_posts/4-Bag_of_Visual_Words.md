@@ -1,6 +1,8 @@
+---
 title: Bag of Visual Words
 date: 2020-11-5 23:18:00
 tags: 5 Minutes with Cyrill
+---
 
 # Bag of Visual Words
 
