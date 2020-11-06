@@ -18,11 +18,10 @@
   
   
   
-    <meta name="description" content="title: Bag of Visual Wordsdate: 2020-11-5 23:18:00tags: 5 Minutes with Cyrill
-Bag of Visual WordsWhat is an bag of visual words?
-Bag of visual words refers to techniques that allows us to compactly...">
+    <meta name="description" content="Bag of Visual WordsWhat is an bag of visual words?
+Bag of visual words refers to techniques that allows us to compactly describe images and to perform similarities queries. So given a database of i...">
   
-  <title> [ Luoadore ]</title>
+  <title>Bag of Visual Words [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -121,22 +120,31 @@ Bag of visual words refers to techniques that allows us to compactly...">
   
 
   <article id="post">
-    <h1>空标题</h1>
+    <h1>Bag of Visual Words</h1>
     <p class="page-title-sub">
       <span id = "post-title-date">撰写于 2020-11-05</span>
       
-        <span id = "post-title-updated">修改于 2020-11-05</span>
+        <span id = "post-title-updated">修改于 2020-11-06</span>
       
       
       
-      <span id="/2020/11/05/4-Bag_of_Visual_Words/" class="leancloud-visitors" data-flag-title="">
+        <span id = "post-title-tags">
+          标签
+          
+          
+            
+            
+            <a href="/tags/5-Minutes-with-Cyrill/">5 Minutes with Cyrill</a>
+          
+        </span>
+      
+      <span id="/2020/11/05/4-Bag_of_Visual_Words/" class="leancloud-visitors" data-flag-title="Bag of Visual Words">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <p>title: Bag of Visual Words<br>date: 2020-11-5 23:18:00<br>tags: 5 Minutes with Cyrill</p>
-<h1 id="Bag-of-Visual-Words"><a href="#Bag-of-Visual-Words" class="headerlink" title="Bag of Visual Words"></a>Bag of Visual Words</h1><p>What is an bag of visual words?</p>
+    <h1 id="Bag-of-Visual-Words"><a href="#Bag-of-Visual-Words" class="headerlink" title="Bag of Visual Words"></a>Bag of Visual Words</h1><p>What is an bag of visual words?</p>
 <p>Bag of visual words refers to techniques that allows us to compactly describe images and to perform similarities queries. So given a database of images the bag of visual words approach can be used to efficiently find subsets of images that look similar either among each other or with respect to a given query image. So how does that work? So the bag of visual words uses a set of <strong>image features as so-called visual words</strong>. Then it describes the images by simply counting how often individual visual words appear in an image. So here’s an example of a regular image what we can do we can extract part locations at which e compute feature descriptors such as sift features and are shown over here. So let us illustrate the different visual words now with colored boxes, each color box means there’s an occurrence of one visual word. Of course this is a very simplified illustration here  just showing a few visual words. </p>
 <p><img src="/2020/11/05/4-Bag_of_Visual_Words/sift-features.png" alt="sift-features">      <img src="/2020/11/05/4-Bag_of_Visual_Words/illustration-visual-words.png" alt="illustration-visual-words"></p>
 <p>So in the end each image is reduced to visual words and the actual pixel values do not matter anymore.  So in bag of words, each image becomes in histogram simply counting the occurrences of the visual words within this image. So the x axis of the histogram defines the visual words while the y axis of the histogram how often the individual visual words appear in the image. </p>
