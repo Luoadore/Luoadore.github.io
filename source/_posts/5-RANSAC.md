@@ -12,7 +12,7 @@ It's a quite simple but highly effective algorithm that you can use if your data
 
 How RANSAC works?  We want to fit a line through 2D data points. How can we do that? So consider these our data points, some of those data points will lie on the line at least approximately but others are outliers. How can we separate them into inliers and outliers? We just randomly draw two of our data points and fit a line through those two points. Why two? Because two is the minimum number of points that I need to fit a line. So let's say I select those two points and fit a line through those two points. Then I simply check how many of the remaining data points so all the data points except the two that has fair sample will agree with this line. Say this model gets a score of four. Let's repeat the process and see how we will do next time. So I again sample two data points in this case those two. I will fit my model for them so solve that task that I want to solve. An d then score how many data points agree with this model, in this case this would be 12. 
 
-![#inliners=12-case](#inliners=12-case.png)
+![inlier-12-case](inlier-12-case.png)
 
 Then repeat this over and over again ten times, hundred times, thousand times and then select the model which has the high score so which has the best support of the remaining data points and that's my solution which is then the inlier points, there so the supporting points plus the two points that our sampled is my inlier set worth of the outlier set. So I just continue working with mu green points. That's basically that's what RANSAC is about. 
 
