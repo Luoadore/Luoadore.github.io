@@ -18,10 +18,10 @@
   
   
   
-    <meta name="description" content="Homogeneous CoordinatesWhat are homogeneous coordinates?
-Homogeneous coordinates are a coordinate system for projective spaces and allow us to express things very elegantly if we work with cameras ...">
+    <meta name="description" content="Fundamental and Essential MatrixWhat are fundamental matrix and essential matrix?
+Fundamental matrix and essential matrix are two matrices which are frequently used in stereo geometry whenever you ...">
   
-  <title>Homogeneous Coordinates [ Luoadore ]</title>
+  <title>Fundamental and Essential Matrix [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -42,22 +42,13 @@ Homogeneous coordinates are a coordinate system for projective spaces and allow 
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2020/11/09/7-Fundamental-and-Essential-Matrix/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        Fundamental and Essential Matrix
-      </div>
-    </div>
-  
   
     <div class="item next">
-      <a href="/2020/11/06/5-RANSAC/">
+      <a href="/2020/11/08/6-Homogeneous_Coordinates/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        RANSAC
+        Homogeneous Coordinates
       </div>
     </div>
   
@@ -120,9 +111,9 @@ Homogeneous coordinates are a coordinate system for projective spaces and allow 
   
 
   <article id="post">
-    <h1>Homogeneous Coordinates</h1>
+    <h1>Fundamental and Essential Matrix</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2020-11-08</span>
+      <span id = "post-title-date">撰写于 2020-11-09</span>
       
         <span id = "post-title-updated">修改于 2020-11-09</span>
       
@@ -138,22 +129,19 @@ Homogeneous coordinates are a coordinate system for projective spaces and allow 
           
         </span>
       
-      <span id="/2020/11/08/6-Homogeneous_Coordinates/" class="leancloud-visitors" data-flag-title="Homogeneous Coordinates">
+      <span id="/2020/11/09/7-Fundamental-and-Essential-Matrix/" class="leancloud-visitors" data-flag-title="Fundamental and Essential Matrix">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <h1 id="Homogeneous-Coordinates"><a href="#Homogeneous-Coordinates" class="headerlink" title="Homogeneous Coordinates"></a>Homogeneous Coordinates</h1><p>What are homogeneous coordinates?</p>
-<p>Homogeneous coordinates are a coordinate system for projective spaces and allow us to express things very elegantly if we work with cameras and want to describe how a point from the 3D world is mapped onto my 2D image. They basically have two key advantages. The first one is they can <strong>express a variety of transformations as a matrix</strong> so whether they can execute this transformation by simply performing a matrix vector multiplication. The second advantage is that in homogeneous coordinates I can <strong>express points which are infinitively</strong> far away with finite coordinates and again that’s something that’s useful if you work with your cameras. Those two properties make a lot of mathematical <em>derivations much simpler and easier</em>. </p>
-<p>In homogeneous coordinates compared to my Cartesian coordinates this is the reason why they are an attractive tool it especially used for disciplines that work with cameras such in computer vision or photogrammetry.</p>
-<p>So look into a small example. We have the point [2 ,4] in our Euclidean world and we want to go into homogeneous coordinates. We need to do is we add an additional dimension so we add a third dimension here and fill this dimension with one. This puts this point from the Euclidean world into homogeneous coordinates. And this additional dimension allows us to do those nice things if we want to make back from homogeneous coordinates into the Euclidean world we have to get rid of this additional dimension so what when you want to reduce the third dimension and go back to two dimensions in this example. And before we actually need to divide all the components of the vector in homogeneous coordinates by the last component. the last component becomes 1 again and the last component is 1 and I can just ignore this additional dimension and back in Euclidean world.</p>
-<p><img src="/2020/11/08/6-Homogeneous_Coordinates/example.png" alt="example"></p>
-<p>With this additional dimension we can now express a certain type of transformations in an elegant throught a simple matrix. So start with the example of a translation with this very simple matrix if we multiply this matrix where is the vector gets translated by this translation vector t. And so by multiplying a vector with this matrix. This vector gets translated by T and that’s something that I can not in Euclidean world. I cannot only do this translations, I can also do this with a  large number of other transformations such as rotations, similarity transforms, _ _ transformations, affine transformations or projective transformations. And this allows me to write them all down in a matrix form and can simply change those transformations  in elegant way by just performing matrix multiplications. So by multiplying all those matrices together I get a resulting transformation that resembles this chain of transformations. This is very nice because it allows me to compress a large number of chain transformations into a single matrix and then I just need to execute the matrix vector multiplication in order to transform a point.</p>
-<p><img src="/2020/11/08/6-Homogeneous_Coordinates/transformations.png" alt="transformations"></p>
-<p>So if we have points in homogeneous coordinates, they have special properties that so-called homogeneous property that means every object in homogeneous property is only defined <strong>up to a scalar</strong> so I can multiply every object in homogeneous coordinates with a number which is unequal to 0 and it still represents the object. So the vector [2, 4, 1] is identical to  the vector [4, 8, 2] for example. </p>
-<p> <img src="/2020/11/08/6-Homogeneous_Coordinates/homogeneous-property.png" alt="homogeneous-property"></p>
-<p>The second nice property that I was referring to was representing <strong>points which are infinitively</strong> far away so by setting the last coordinates to zero I can express points which are infinitively far away with finite coordinates, so you can see this if you need to divide by the last component if you want to go back the Euclidean world you can see that you would divide by zero and then the points would be infinitively far away. But the attractive thing in homogeneous coordinates is that we will maintain the direction to the point so even if the point is infinitively far away we can still estimate the direction to that point. And this is very relevant with cameras where you have points which are far away potentially infinitively far away while which are at the horizon which in geometric estimation processes all allows you to estimate the orientation of your camera actually quite well but which cannot be handled very well if in my Euclidean world. And therefore going to this projective spaces is very attractive when working with cameras.</p>
+    <h1 id="Fundamental-and-Essential-Matrix"><a href="#Fundamental-and-Essential-Matrix" class="headerlink" title="Fundamental and Essential Matrix"></a>Fundamental and Essential Matrix</h1><p>What are fundamental matrix and essential matrix?</p>
+<p>Fundamental matrix and essential matrix are two matrices which are frequently used in <strong>stereo geometry</strong> whenever you want to describe geometric relations between pairs of images either recorded from a stereo camera or from a monocular camera moving through the environment. And the fundamental matrix is used for <strong>uncalibrated cameras</strong> where the essential matrix is used for <strong>calibrated cameras</strong>. The matrix <strong>contains all the informations about the relative orientation that can be extracted from correspondences</strong> alone. So I don’t assume any knowledge about the scene for example what I picture or how large objects are. I only have corresponding points so I know given the point in image number one what is a corresponding point in image number two. Both matrices are so-called homogeneous matrix, they are 3 by 3 matrices and they have a rank deficiency that means they are only of rank 2 and these rank 2 is something that is used for formulating the so-called <strong>Coplanarity constraint</strong>, so the constraint that must hold for corresponding points. So if this is my F Coplanarity constraint expressed in this simple form. X prime is a point in image number one, X double prime is a point in image number two. </p>
+<p><img src="/2020/11/09/7-Fundamental-and-Essential-Matrix/constraint.png" alt="constraint"></p>
+<p>And we assume this is the pixel coordinate of the same point projected into both images then with this equation I can express the so-called Coplanarity constraint that must hold for all corresponding points and we cannot do the same for the essential matrix except that we have our points in our camera coordinate system not in the pixel coordinate system. That means we can formulate this Coplanarity constraint that must hold for all corresponding points and this is also the way how we can estimate the matrix _. Given corresponding in considering F and E is unknowns we can build a system of linear equations and come up with an homogeneous system that we then need to solve and that then will give us our fundamental matrix or essential matrix.</p>
+<p><img src="/2020/11/09/7-Fundamental-and-Essential-Matrix/homogeneous.png" alt="homogeneous"></p>
+<p>This can be donw using the so-called <strong>eight-point algorithm</strong>. So given eight corresponding points I can estimate F and E in a rather straight forward fashion. If I working with calibrated camera so I’m only interested in E, there is a even better or more advanced algorithm which is the <strong>five-point algorithm</strong> proposed by  Nister which is today the gold standard and requires only five point for computing E. Once I have E, I can then decompose E and compute the rotation matrix which tells me how is camera two oriented with respect to camera one. And I get the baseline vector but only its direction nor the flanks. So I know where camera two is located with respect to camera one but I don’t know how far the camera is away. So this is basically the skill and ability I have.</p>
+<p>So given a corresponding points, I can  compute the matrix E and F. Given that I know the matrix I can also <strong>simplify the search for correspondences</strong>. So I have the essential matrix and I have a point in image number one, I can locate the point in image number two in the sense that I don’t need to search the whole image I know that this point will lie along one single line in the image that so-called ? line.  So knowing the orientation parameters are knowing E and F substantially helps me to reduce my search for corresponding points in the other image. So corresponding points can be used to estimate the matrices but if I know the matrices I can also use them to simplify my search for corresponding points. Essential matrix is a <strong>five degrees</strong> of freedom so encodes rotation and translation parameters and fundamental matrix has <strong>seven degrees of freedom</strong> because it additionally contains some information about the calibration parameters which are encoded in this matrix. But for both of them holds they can’t express all the parameters all in the subset of parameters and exactly those parameters I can estimate from corresponding points along.</p>
 
   </article>
   <div class="random-toc-area">
@@ -161,7 +149,7 @@ Homogeneous coordinates are a coordinate system for projective spaces and allow 
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Homogeneous-Coordinates"><span class="toc-text">Homogeneous Coordinates</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Fundamental-and-Essential-Matrix"><span class="toc-text">Fundamental and Essential Matrix</span></a></li></ol>
   </div>
 </div>
 
@@ -169,13 +157,11 @@ Homogeneous coordinates are a coordinate system for projective spaces and allow 
   
 <nav id="pagination">
   
-    <a href="/2020/11/09/7-Fundamental-and-Essential-Matrix/" class="prev">&larr; 上一篇 Fundamental and Essential Matrix</a>
-  
 
   
 
   
-    <a href="/2020/11/06/5-RANSAC/" class="next">下一篇 RANSAC &rarr;</a>
+    <a href="/2020/11/08/6-Homogeneous_Coordinates/" class="next">下一篇 Homogeneous Coordinates &rarr;</a>
   
 </nav>
 
