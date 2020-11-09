@@ -18,10 +18,10 @@
   
   
   
-    <meta name="description" content="Bag of Visual WordsWhat is an bag of visual words?
-Bag of visual words refers to techniques that allows us to compactly describe images and to perform similarities queries. So given a database of i...">
+    <meta name="description" content="Homogeneous CoordinatesWhat are homogeneous coordinates?
+Homogeneous coordinates are a coordinate system for projective spaces and allow us to express things very elegantly if we work with cameras ...">
   
-  <title>Bag of Visual Words [ Luoadore ]</title>
+  <title>Homogeneous Coordinates [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -42,22 +42,13 @@ Bag of visual words refers to techniques that allows us to compactly describe im
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2020/11/06/3-Occupancy_Grid/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        Occupancy Grid
-      </div>
-    </div>
-  
   
     <div class="item next">
-      <a href="/2020/11/03/2-Particle_Filter/">
+      <a href="/2020/11/06/5-RANSAC/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        Particle Filter
+        RANSAC
       </div>
     </div>
   
@@ -120,9 +111,9 @@ Bag of visual words refers to techniques that allows us to compactly describe im
   
 
   <article id="post">
-    <h1>Bag of Visual Words</h1>
+    <h1>Homogeneous Coordinates</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2020-11-05</span>
+      <span id = "post-title-date">撰写于 2020-11-08</span>
       
         <span id = "post-title-updated">修改于 2020-11-09</span>
       
@@ -138,25 +129,22 @@ Bag of visual words refers to techniques that allows us to compactly describe im
           
         </span>
       
-      <span id="/2020/11/05/4-Bag_of_Visual_Words/" class="leancloud-visitors" data-flag-title="Bag of Visual Words">
+      <span id="/2020/11/08/6-Homogeneous_Coordinates/" class="leancloud-visitors" data-flag-title="Homogeneous Coordinates">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <h1 id="Bag-of-Visual-Words"><a href="#Bag-of-Visual-Words" class="headerlink" title="Bag of Visual Words"></a>Bag of Visual Words</h1><p>What is an bag of visual words?</p>
-<p>Bag of visual words refers to techniques that allows us to compactly describe images and to perform similarities queries. So given a database of images the bag of visual words approach can be used to efficiently find subsets of images that look similar either among each other or with respect to a given query image. So how does that work? So the bag of visual words uses a set of <strong>image features as so-called visual words</strong>. Then it describes the images by simply counting how often individual visual words appear in an image. So here’s an example of a regular image what we can do we can extract part locations at which e compute feature descriptors such as sift features and are shown over here. So let us illustrate the different visual words now with colored boxes, each color box means there’s an occurrence of one visual word. Of course this is a very simplified illustration here  just showing a few visual words. </p>
-<p><img src="/2020/11/05/4-Bag_of_Visual_Words/sift-features.png" alt="sift-features">      <img src="/2020/11/05/4-Bag_of_Visual_Words/illustration-visual-words.png" alt="illustration-visual-words"></p>
-<p>So in the end each image is reduced to visual words and the actual pixel values do not matter anymore.  So in bag of words, each image becomes in histogram simply counting the occurrences of the visual words within this image. So the x axis of the histogram defines the visual words while the y axis of the histogram how often the individual visual words appear in the image. </p>
-<p>A visual word can be a single feature, most approaches however will use the mean feature descriptor computed from several similar descriptors at the visual _. That means we are grouping visual features together into one word in this grouping is typically computed using a clustering algorithm such as k-means. The visual words that result from clustering are called the dictionary. And they are lists of visual words and they define the x axis of all our histograms. So each image in our database is turned into such histogram so that need to store M histograms instead of M images in our database. And all <strong>comparisons are reduced</strong> to computing the similarity between histograms. And we are not considering the actual images anymore.</p>
-<p>And there is however an issue with this approach because in practice some visual words are good for performing such a comparisons while others are less expressive. So for example if you have a word which occurs in every image will not be a great support for making comparisons. So we can fix this issue by computing a weight for each visual word depending on the expected information it is going to convey. So important visual words are ranked higher and others are lower. This is done using the so-called <strong>TF-IDT</strong>, tf-idf stands for <strong>term frequency inverse document frequency</strong>. </p>
-<p><img src="/2020/11/05/4-Bag_of_Visual_Words/tf-idf.png" alt="tf-idf"></p>
-<p>The first term in this equation is the relative occurrence of a word in image such as our histogram just normalized to 1, this term then multiplied with the logarithm of the inverse percentage of images in our database contain the word at all. This will bring the importance of the words that appear in every image down to 0. Other more rarely occurring words are enhanced. So tf-idf will relate each bin of each histogram individually and that expressive visual word will be enhanced. This tf-idf computations on all histogram in our database and now we are ready for comparing images in the database either among each other of respect to a query image. </p>
-<p>So let’s consider more example with 4 images shown over here. </p>
-<p><img src="/2020/11/05/4-Bag_of_Visual_Words/examples.png" alt="examples"></p>
-<p>And this example number 0 and number 3 are similar to each other. By looking into the cost matrix of the histograms, we can see that each histogram compared with itself has a distance of 0 and all other comparisons lead to higher values actually not all of them. We also see the image number 0 and number 3 have a distance of zero which means they have the same distribution of related features and such they are considered to be similar or maybe identical. </p>
-<p><img src="/2020/11/05/4-Bag_of_Visual_Words/cost-matrix.png" alt="cost-matrix"></p>
-<p>In the bag of words model we typically compare these histograms using the cosine distance which takes value between 0 and 1. So in order to find the N most similar images in database given _ images we will <strong>return the N images which have the smallest cosine distance</strong>.  So that’s basically of it, that’s how we defined similar images. So the bag of words approach frequently used in computer vision for finding similar images. Also in robotics it’s used for performing place recognition tasks or for finding loop closure candidates in the context of the slam program. If you wanna to investigate the bag of visual words approach further, I suggest you to visit the <a target="_blank" rel="noopener" href="https://github.com/ovysotska/in_simple_english">jupiter notebook</a> that was created by ovysotska and which is available on github. It’s a great point for understanding the effect of tf-idf and also the distance functions. </p>
+    <h1 id="Homogeneous-Coordinates"><a href="#Homogeneous-Coordinates" class="headerlink" title="Homogeneous Coordinates"></a>Homogeneous Coordinates</h1><p>What are homogeneous coordinates?</p>
+<p>Homogeneous coordinates are a coordinate system for projective spaces and allow us to express things very elegantly if we work with cameras and want to describe how a point from the 3D world is mapped onto my 2D image. They basically have two key advantages. The first one is they can <strong>express a variety of transformations as a matrix</strong> so whether they can execute this transformation by simply performing a matrix vector multiplication. The second advantage is that in homogeneous coordinates I can <strong>express points which are infinitively</strong> far away with finite coordinates and again that’s something that’s useful if you work with your cameras. Those two properties make a lot of mathematical <em>derivations much simpler and easier</em>. </p>
+<p>In homogeneous coordinates compared to my Cartesian coordinates this is the reason why they are an attractive tool it especially used for disciplines that work with cameras such in computer vision or photogrammetry.</p>
+<p>So look into a small example. We have the point [2 ,4] in our Euclidean world and we want to go into homogeneous coordinates. We need to do is we add an additional dimension so we add a third dimension here and fill this dimension with one. This puts this point from the Euclidean world into homogeneous coordinates. And this additional dimension allows us to do those nice things if we want to make back from homogeneous coordinates into the Euclidean world we have to get rid of this additional dimension so what when you want to reduce the third dimension and go back to two dimensions in this example. And before we actually need to divide all the components of the vector in homogeneous coordinates by the last component. the last component becomes 1 again and the last component is 1 and I can just ignore this additional dimension and back in Euclidean world.</p>
+<p><img src="/2020/11/08/6-Homogeneous_Coordinates/example.png" alt="example"></p>
+<p>With this additional dimension we can now express a certain type of transformations in an elegant throught a simple matrix. So start with the example of a translation with this very simple matrix if we multiply this matrix where is the vector gets translated by this translation vector t. And so by multiplying a vector with this matrix. This vector gets translated by T and that’s something that I can not in Euclidean world. I cannot only do this translations, I can also do this with a  large number of other transformations such as rotations, similarity transforms, _ _ transformations, affine transformations or projective transformations. And this allows me to write them all down in a matrix form and can simply change those transformations  in elegant way by just performing matrix multiplications. So by multiplying all those matrices together I get a resulting transformation that resembles this chain of transformations. This is very nice because it allows me to compress a large number of chain transformations into a single matrix and then I just need to execute the matrix vector multiplication in order to transform a point.</p>
+<p><img src="/2020/11/08/6-Homogeneous_Coordinates/transformations.png" alt="transformations"></p>
+<p>So if we have points in homogeneous coordinates, they have special properties that so-called homogeneous property that means every object in homogeneous property is only defined <strong>up to a scalar</strong> so I can multiply every object in homogeneous coordinates with a number which is unequal to 0 and it still represents the object. So the vector [2, 4, 1] is identical to  the vector [4, 8, 2] for example. </p>
+<p> <img src="/2020/11/08/6-Homogeneous_Coordinates/homogeneous-property.png" alt="homogeneous-property"></p>
+<p>The second nice property that I was referring to was representing <strong>points which are infinitively</strong> far away so by setting the last coordinates to zero I can express points which are infinitively far away with finite coordinates, so you can see this if you need to divide by the last component if you want to go back the Euclidean world you can see that you would divide by zero and then the points would be infinitively far away. But the attractive thing in homogeneous coordinates is that we will maintain the direction to the point so even if the point is infinitively far away we can still estimate the direction to that point. And this is very relevant with cameras where you have points which are far away potentially infinitively far away while which are at the horizon which in geometric estimation processes all allows you to estimate the orientation of your camera actually quite well but which cannot be handled very well if in my Euclidean world. And therefore going to this projective spaces is very attractive when working with cameras.</p>
 
   </article>
   <div class="random-toc-area">
@@ -164,7 +152,7 @@ Bag of visual words refers to techniques that allows us to compactly describe im
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bag-of-Visual-Words"><span class="toc-text">Bag of Visual Words</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Homogeneous-Coordinates"><span class="toc-text">Homogeneous Coordinates</span></a></li></ol>
   </div>
 </div>
 
@@ -172,13 +160,11 @@ Bag of visual words refers to techniques that allows us to compactly describe im
   
 <nav id="pagination">
   
-    <a href="/2020/11/06/3-Occupancy_Grid/" class="prev">&larr; 上一篇 Occupancy Grid</a>
-  
 
   
 
   
-    <a href="/2020/11/03/2-Particle_Filter/" class="next">下一篇 Particle Filter &rarr;</a>
+    <a href="/2020/11/06/5-RANSAC/" class="next">下一篇 RANSAC &rarr;</a>
   
 </nav>
 
