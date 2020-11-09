@@ -1,7 +1,7 @@
 ---
 title: 图像多标签识别
 date: 2020-10-29 22:42:43
-tags: 图像识别
+tags: image tagging
 ---
 
 [TOC]
