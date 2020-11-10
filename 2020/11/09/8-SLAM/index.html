@@ -18,10 +18,10 @@
   
   
   
-    <meta name="description" content="Fundamental and Essential MatrixWhat are fundamental matrix and essential matrix?
-Fundamental matrix and essential matrix are two matrices which are frequently used in stereo geometry whenever you ...">
+    <meta name="description" content="SLAMWhat is SLAM?
+Slam stands for simultaneous localization and mapping. It’s a task of estimating a map of the environment and at the same time localizing your sensor or your robot in that map you...">
   
-  <title>Fundamental and Essential Matrix [ Luoadore ]</title>
+  <title>SLAM [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -42,22 +42,13 @@ Fundamental matrix and essential matrix are two matrices which are frequently us
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2020/11/09/8-SLAM/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        SLAM
-      </div>
-    </div>
-  
   
     <div class="item next">
-      <a href="/2020/11/08/6-Homogeneous_Coordinates/">
+      <a href="/2020/11/09/7-Fundamental-and-Essential-Matrix/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        Homogeneous Coordinates
+        Fundamental and Essential Matrix
       </div>
     </div>
   
@@ -120,7 +111,7 @@ Fundamental matrix and essential matrix are two matrices which are frequently us
   
 
   <article id="post">
-    <h1>Fundamental and Essential Matrix</h1>
+    <h1>SLAM</h1>
     <p class="page-title-sub">
       <span id = "post-title-date">撰写于 2020-11-09</span>
       
@@ -138,19 +129,18 @@ Fundamental matrix and essential matrix are two matrices which are frequently us
           
         </span>
       
-      <span id="/2020/11/09/7-Fundamental-and-Essential-Matrix/" class="leancloud-visitors" data-flag-title="Fundamental and Essential Matrix">
+      <span id="/2020/11/09/8-SLAM/" class="leancloud-visitors" data-flag-title="SLAM">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <h1 id="Fundamental-and-Essential-Matrix"><a href="#Fundamental-and-Essential-Matrix" class="headerlink" title="Fundamental and Essential Matrix"></a>Fundamental and Essential Matrix</h1><p>What are fundamental matrix and essential matrix?</p>
-<p>Fundamental matrix and essential matrix are two matrices which are frequently used in <strong>stereo geometry</strong> whenever you want to describe geometric relations between pairs of images either recorded from a stereo camera or from a monocular camera moving through the environment. And the fundamental matrix is used for <strong>uncalibrated cameras</strong> where the essential matrix is used for <strong>calibrated cameras</strong>. The matrix <strong>contains all the informations about the relative orientation that can be extracted from correspondences</strong> alone. So I don’t assume any knowledge about the scene for example what I picture or how large objects are. I only have corresponding points so I know given the point in image number one what is a corresponding point in image number two. Both matrices are so-called homogeneous matrix, they are 3 by 3 matrices and they have a rank deficiency that means they are only of rank 2 and these rank 2 is something that is used for formulating the so-called <strong>Coplanarity constraint</strong>, so the constraint that must hold for corresponding points. So if this is my F Coplanarity constraint expressed in this simple form. X prime is a point in image number one, X double prime is a point in image number two. </p>
-<p><img src="/2020/11/09/7-Fundamental-and-Essential-Matrix/constraint.png" alt="constraint"></p>
-<p>And we assume this is the pixel coordinate of the same point projected into both images then with this equation I can express the so-called Coplanarity constraint that must hold for all corresponding points and we cannot do the same for the essential matrix except that we have our points in our camera coordinate system not in the pixel coordinate system. That means we can formulate this Coplanarity constraint that must hold for all corresponding points and this is also the way how we can estimate the matrix _. Given corresponding in considering F and E is unknowns we can build a system of linear equations and come up with an homogeneous system that we then need to solve and that then will give us our fundamental matrix or essential matrix.</p>
-<p><img src="/2020/11/09/7-Fundamental-and-Essential-Matrix/homogeneous.png" alt="homogeneous"></p>
-<p>This can be donw using the so-called <strong>eight-point algorithm</strong>. So given eight corresponding points I can estimate F and E in a rather straight forward fashion. If I working with calibrated camera so I’m only interested in E, there is a even better or more advanced algorithm which is the <strong>five-point algorithm</strong> proposed by  Nister which is today the gold standard and requires only five point for computing E. Once I have E, I can then decompose E and compute the rotation matrix which tells me how is camera two oriented with respect to camera one. And I get the baseline vector but only its direction nor the flanks. So I know where camera two is located with respect to camera one but I don’t know how far the camera is away. So this is basically the skill and ability I have.</p>
-<p>So given a corresponding points, I can  compute the matrix E and F. Given that I know the matrix I can also <strong>simplify the search for correspondences</strong>. So I have the essential matrix and I have a point in image number one, I can locate the point in image number two in the sense that I don’t need to search the whole image I know that this point will lie along one single line in the image that so-called ? line.  So knowing the orientation parameters are knowing E and F substantially helps me to reduce my search for corresponding points in the other image. So corresponding points can be used to estimate the matrices but if I know the matrices I can also use them to simplify my search for corresponding points. Essential matrix is a <strong>five degrees</strong> of freedom so encodes rotation and translation parameters and fundamental matrix has <strong>seven degrees of freedom</strong> because it additionally contains some information about the calibration parameters which are encoded in this matrix. But for both of them holds they can’t express all the parameters all in the subset of parameters and exactly those parameters I can estimate from corresponding points along.</p>
+    <h1 id="SLAM"><a href="#SLAM" class="headerlink" title="SLAM"></a>SLAM</h1><p>What is SLAM?</p>
+<p>Slam stands for simultaneous localization and mapping. It’s a task of estimating a map of the environment and at the same time localizing your sensor or your robot in that map you’re currently building. And something that mobile robots need whenever they move into unknown or partially unknown environments.   Because they need to build a map of the environment and localize itself within that map. If a map is given then things are much easier you just need to localize your self and if a pose estimate is given then mapping is also relatively easy but solving both problems together is much harder. And that’s something that has been investigated in robotics and let’s say at the beginning of the 1990s and we typically find different approaches in order to solve the slam problem.</p>
+<p>We have to distinguish here between the <strong>frontend and backend</strong> . The frontend is the part which takes the raw sensor data and turns them into an <strong>intermediate representation</strong> such as constrains in an optimization problem or probability distribution about the location of landmark derived from sensor data. So transfering sensor data into an intermediate representation, that’s very task specific. And then the second part backend which takes this intermediate representation and solve the underlying <strong>state estimation</strong> or optimization problem. So estimating the parameters that describe me for example where objects on the environment or where my platform is in the world.</p>
+<p>And in the backend we typically find three different categories of approaches. The first one is the <strong>extend kalman filter(EKF)</strong>, this is how it started at least in robotics or the alternative is <strong>particle filters</strong> or <strong>least squares</strong> or so-called <strong>graph based slam approaches</strong>. Those graph based slam approaches are today the most popular ones. So if you build a new slam system, you most likely start with a graph based approach. In those graph based approaches we as the name says use the graph to represent the variables and the relations between those variables. And the different types of graphs which are out there  are two most popular today are either a <strong>pose graph</strong>, which is the graph contains only the poses and marginalizes out the map information.  Or <strong>factor graph</strong> which have vector sitting between nodes in between variables and the information coming from the frontend or from other sources prior information can be stored in those vectors. They are both kind of similar what you can do with it and different optimization tool boxes use in different internal representations. How to solve this least squares problem, this is typically done using optimization techniques and there’s a large variety of parameters options that you can choose. There are also two boxes out there you can use the three most popular ones for backend are probably g2o, gtsam or ceres, which are kind of three systems which help you to solve your optimization problem and these are the most popular ones today. They either use vector graph or they use for most slam graph or pose graph as a special form of these graphs. </p>
+<p>So in pose graph for example, every node represents the <strong>pose</strong> of the sensor at a certain point of time and the edges between those nodes represent the <strong>spatial relations</strong> that are extracted from the sensor data. And then the optimization system basically tries to <strong>find a new configuration</strong> of the nodes. So the overall error that is introduced through the edges actually gets minimized until I find the minimum error configuration which is my least square solution and again this is an technique that is used whenever you need to build a map of the environment and localize yourself within that map. So something that mobile robot need to do,  autonomous cars need to do. So every system which move through the environment potentially if it does it on its own. It’s also strong link between visual slam and <strong>bundle adjustment</strong>, bundle adjustment has been there for much longer so in the 1950s people from photogrammetry developed bundle adjustment, you can see as a special form of visual slam which has a special form constrain that is basically the reproduction error of pixel coordinates. But there are very strong similarities between those approaches the slam formulation is typically somewhat more general but basically came. That’s 30 to 40 years after this has been developed in photogrammetry</p>
+<p><img src="/2020/11/09/8-SLAM/pose-graph.png" alt="pose-graph"></p>
 
   </article>
   <div class="random-toc-area">
@@ -158,7 +148,7 @@ Fundamental matrix and essential matrix are two matrices which are frequently us
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Fundamental-and-Essential-Matrix"><span class="toc-text">Fundamental and Essential Matrix</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SLAM"><span class="toc-text">SLAM</span></a></li></ol>
   </div>
 </div>
 
@@ -166,13 +156,11 @@ Fundamental matrix and essential matrix are two matrices which are frequently us
   
 <nav id="pagination">
   
-    <a href="/2020/11/09/8-SLAM/" class="prev">&larr; 上一篇 SLAM</a>
-  
 
   
 
   
-    <a href="/2020/11/08/6-Homogeneous_Coordinates/" class="next">下一篇 Homogeneous Coordinates &rarr;</a>
+    <a href="/2020/11/09/7-Fundamental-and-Essential-Matrix/" class="next">下一篇 Fundamental and Essential Matrix &rarr;</a>
   
 </nav>
 
