@@ -14,7 +14,6 @@ comments: false
         <div class="user-company" style="font-size:16px;color:#999;">Tencent, Shenzhen, China</div>
         <div style="font-size:16px;color:#333;margin-top:10px;">
           <span class="user-email">Email: luoluomayday@gmail.com</span>
-          <span class="user-phone" style="margin-left: 10px;">Phone: (+86)17602622517</span>
         </div>
       </div>
     </div>
