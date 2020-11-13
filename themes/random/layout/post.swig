@@ -2,7 +2,7 @@
 
 {% block body %}
   {% include 'math/index.swig' %}
-  <article id="post">
+  <article id="post" style="padding: 10px;">
     <h1>{{ page.title || __('without_title') }}</h1>
     <p class="page-title-sub">
       <span id = "post-title-date">{{ __('created_at') }} {{ date(page.date) }}</span>

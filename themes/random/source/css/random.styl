@@ -243,8 +243,8 @@ a:hover {
 #container
   margin-top: 50px;
 
-#content-outer
-  padding: marginBorder;
+// #content-outer
+//   padding: marginBorder;
 
 // content end
 
@@ -517,8 +517,8 @@ article img
 .fancybox-thumb:hover
   text-decoration: none;
 .fancybox-thumb img
-  max-width: 120px;
-  max-height: 120px;
+  max-width: 240px;
+  max-height: 240px;
   padding: 3px;
   border-radius: 5%;
   border: 1px solid #DDD;
@@ -607,6 +607,33 @@ blockquote
 
 // mobile
 @media (max-width: desktopWidth)
+  .fancybox-thumb 
+    width: 100% !important;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+  .fancybox-thumb img
+    width: 100% !important;
+    max-width: fit-content !important;
+    max-height: fit-content !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 4px; !important;
+  #content-outer
+    // padding: 10px 0 !important;
+  #content-outer
+    background: #eee !important;
+  .hobbyList-wrap
+    width: 100% !important;
+  .hobbyList-Item-cover
+    height: 220px !important;
+  .videoDetail
+    padding: 0px !important;
+  .videoDetailIframe
+    height: 230px !important;
+    border-radius: 4px;
   #outer-container,.random-center,#menu-outer
     width: 100%;
   #outer-container
