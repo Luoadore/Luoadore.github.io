@@ -1,6 +1,6 @@
 
 {% if site.posts.length > 0 %}
-  <div id="recent-posts">
+  <div id="recent-posts" style="padding:10px;">
     <h1>{{ __('archive_title') }}
     {% if page.posts.length %}
         <span class="posts-count">

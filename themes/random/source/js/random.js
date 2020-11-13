@@ -163,3 +163,4 @@ function playBackground() {
   vegasConfig.slides = slides;
   $('body').vegas(vegasConfig);
 }
+
