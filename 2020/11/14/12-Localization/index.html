@@ -18,9 +18,9 @@
   
   
   
-    <meta name="description" content="OrthophotoHow can you measure the distance in an image? Measure distances in image and know that those distances are corresponded to the distance in the real world. This is something which typicall...">
+    <meta name="description" content="LocalizationSo with localization we refer to estimating the position, and most of time the rotation of an object moving through our world. This can be robot navigating through the environment, a ca...">
   
-  <title>Orthophoto [ Luoadore ]</title>
+  <title>Localization [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -41,22 +41,13 @@
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2020/11/14/12-Localization/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        Localization
-      </div>
-    </div>
-  
   
     <div class="item next">
-      <a href="/2020/11/13/10-Binary-Features/">
+      <a href="/2020/11/13/11-Orthophoto/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        Binary Features
+        Orthophoto
       </div>
     </div>
   
@@ -126,9 +117,9 @@
   
 
   <article id="post" style="padding: 10px;">
-    <h1>Orthophoto</h1>
+    <h1>Localization</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2020-11-13</span>
+      <span id = "post-title-date">撰写于 2020-11-14</span>
       
         <span id = "post-title-updated">修改于 2020-11-14</span>
       
@@ -144,17 +135,16 @@
           
         </span>
       
-      <span id="/2020/11/13/11-Orthophoto/" class="leancloud-visitors" data-flag-title="Orthophoto">
+      <span id="/2020/11/14/12-Localization/" class="leancloud-visitors" data-flag-title="Localization">
         <i class="leancloud-visitors-count"></i>
         <em class="post-meta-item-text"> views </em>
       </span>
     </p>
     
-    <h1 id="Orthophoto"><a href="#Orthophoto" class="headerlink" title="Orthophoto"></a>Orthophoto</h1><p>How can you measure the distance in an image? Measure distances in image and know that those distances are corresponded to the distance in the real world. This is something which typically dose not work with your regular camera with a perspective camera because this camera take the points in the 3D world and project them onto a 2D image plane with a central projection or an approximation of the central projection. That project doesn’t lead to the distance in the image plane that corresponds to the distances in the real world. So you need to do you need to generate so-called <strong>Orthophoto</strong>. In an orthophoto you can envision this as the picture which have been taken very very far away from an object like sitting in space somewhere on a satellite and take an image of universe. Because this set up all the <strong>rays from your image plane towards the object are more or less parallel</strong>. In the more or less parallel, then you actually generate an image where you can perform those measurements in an image. In practice however, you can’t generate those images or it’s very tricky.</p>
-<p>So what do you need to do in order to get a orthophoto? The good news is you can compute an orthophoto given an real world image. You need a bit more information than just the image you also need to have known the geometry of the object you’re picturing. You need to know where the image has been taken from and what your camera parameters are (<strong>camera image surface model extrinsics, intrinsics</strong>). But with this information, you can compute a so-called orthophoto.</p>
-<p>Let’s see how that works. We have a picture taken from this colored surface for example and we want to generating orthophotos from that surface. We generate a new so-called virtual image so an image that doesn’t exist in reality but that I want to compute on my orthophoto. I put it as a grid underneath my surface. Then for every pixels in this new virtual image I move up to the surface here along the Z direction until I Intersect with that surface and this gives me a point in the 3d world. And I take this point and projecting this point into my camera image using my standard x equals px equation we use to transform the 3D points with the prediction matrix into the image point and then what I’m doing I’m just taking the color value or the intensity value at this pixel location, copy it and store it at the corresponding location in my orthophoto. I’m simply repeating this process over and over again for all those pixel locations in my orthophoto which will generate me a new photo where I can measure the distances in this new image and they correspond to the distances in the 2D world.</p>
-<p><img src="/2020/11/13/11-Orthophoto/orthophoto.png" alt="orthophoto"></p>
-<p>That’s the way you can generate orthophoto at least in its most simple form and what you need to do is you need to have your surface model, where your image has been taken, your camera parameters. But you can generate this orthophoto which allows you then perform measurement in those images. This important when building maps if you for example use google maps and take the image overlay of the area image with a map. That is something which is very close on approximation of an orthophoto. So you can measure the distances of image and those distances correspond to the distances in the real world.</p>
+    <h1 id="Localization"><a href="#Localization" class="headerlink" title="Localization"></a>Localization</h1><p>So with localization we refer to estimating the position, and most of time the rotation of an object moving through our world. This can be robot navigating through the environment, a car driving around, a uav flying or in general sensor. And what we want to do is we take those sensor readings we want to estimate <strong>where is the system</strong> in a given coordinate frame. And often this coordinate is defined <strong>based on a map</strong> of the environment. So you can make an example from about yourself. You are in a new city and you take out a map of the city and you use your perceptions for example your eyes to read street signs and then estimate where you are. That’s the form of localization. Or use a GPS receiver which gives you a coordinate which provides you then some information about where you are in the environment. And this localization task is highly relevant in robotics and in photogrammetry, in computer vision in autonomous car driving in using your smart phone you always use services which require post information about where you are in the world. So that’s super relevant and a <strong>building block</strong> for most navigation systems or autonomous systems in general. </p>
+<p>We typically distinguish between <strong>online and offline</strong> approaches once you want to estimate where’s the system right now and given the information that I have so far or in the offline the approaches where you have all the data at hand and want to reconstruct the full trajectory. We further more distinguish typically between <strong>pose tracking</strong>, which means we want to estimate where systems starting from a known location or having an initial estimate. Or <strong>global localization</strong> where we have no idea where we are and we want to globally estimate our position without any prior information. How do you solve the localization problem? Typically use probabilistic approacher and most of the online approaches rely on a recursive based filter which is technique for state estimation. There are different realizations of this space filter for example, a kalman filter, a particle filter, a histogram filter or even optimization based approaches are used. This has led to popular algorithms such as the EKF localization, Monte Carlo localization, Markov localization, or sliding window based least square approaches which are somewhat a hybird between an online and an offline approach. They all have different advantages and disadvantages such as being restricted to certain types of probability distributions such as gaussians or being computationally very efficient compared to computationally more demanding and which algorithm you choose basically depands on your application, on your constraints with respect to assumptions you can make about the world, with respect to your constraints on robustness, your precision, your computational resources that are available. So a lot of those factors need to be taken into account to evaluate which localization system is good for you. </p>
+<p>In general, the localization systems use <strong>control</strong> information, that means for example, steering information of the vehicle. In a car what’s the angle of this your steering wheel how hard do you press the gas pedal would be control information. It’s important to predict where the system will be at the next point in time. You can use or then use a second step sensor information (<strong>observations</strong>) such as camera or laser range filter in order to perceive the world and estimate where could you be what’s an unlikely the position you might be in. Then you combine the prediction and this correction information in order to estimate where you are.</p>
+<p>So in practice, localization plays an important role in the key building block of every autonomous system of every navigation system which is out there. And again they differ in with terms of robustness with terms of the assumptions of the underlying, the distributions about the motion models are either linear or non-linear, what are your runtime constraints you want to do global localizations. This always important things that impact the design decision of what localization system to choose.</p>
 
   </article>
   <div class="random-toc-area">
@@ -162,7 +152,7 @@
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Orthophoto"><span class="toc-text">Orthophoto</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Localization"><span class="toc-text">Localization</span></a></li></ol>
   </div>
 </div>
 
@@ -170,13 +160,11 @@
   
 <nav id="pagination">
   
-    <a href="/2020/11/14/12-Localization/" class="prev">&larr; 上一篇 Localization</a>
-  
 
   
 
   
-    <a href="/2020/11/13/10-Binary-Features/" class="next">下一篇 Binary Features &rarr;</a>
+    <a href="/2020/11/13/11-Orthophoto/" class="next">下一篇 Orthophoto &rarr;</a>
   
 </nav>
 
