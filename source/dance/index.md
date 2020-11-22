@@ -23,9 +23,9 @@ list: [{
   text: ''
 },
 {
-  id: '',
+  id: '4',
   title: 'BOCA',
-  cover: '',
+  cover: 'http://cdn.chenqihulk.cn/4.jpeg',
   text: ''
 }]
 ---
