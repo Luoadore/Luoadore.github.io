@@ -1,5 +1,5 @@
 ---
-title: [paper reading] SimCLR
+title: '[paper reading] SimCLR'
 date: 2020-11-24 21:28:00
 tags: image tagging
 ---
