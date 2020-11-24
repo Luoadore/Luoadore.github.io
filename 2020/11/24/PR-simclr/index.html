@@ -1,0 +1,450 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="zh_Hans">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <meta name="author" content="Luoadore">
+  
+  
+  
+  
+    <meta name="description" content="[paper reading] SimCLRPAPERA Simple Framework for Contrastive Learning of Visual Representations
+Ting Chen, Simon Kornblith, Mohammad Norouzi, Geoffrey Hinton 
+REPRESENTATIONWhat is the task? Why? ...">
+  
+  <title>[paper reading] SimCLR [ Luoadore ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2020/11/14/15-Bundle-Adjustment/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Bundle Adjustment
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://avatars0.githubusercontent.com/u/27325158?s=460&u=943b90cabcb08165803593378c6afd6bca967ec5&v=4"/>
+          <div id="homelink">Luoadore</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/interests">Interests</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post" style="padding: 10px;">
+    <h1>[paper reading] SimCLR</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2020-11-24</span>
+      
+        <span id = "post-title-updated">修改于 2020-11-24</span>
+      
+      
+      
+        <span id = "post-title-tags">
+          标签
+          
+          
+            
+            
+            <a href="/tags/image-tagging/">image tagging</a>
+          
+        </span>
+      
+      <span id="/2020/11/24/PR-simclr/" class="leancloud-visitors" data-flag-title="[paper reading] SimCLR">
+        <i class="leancloud-visitors-count"></i>
+        <em class="post-meta-item-text"> views </em>
+      </span>
+    </p>
+    
+    <h1 id="paper-reading-SimCLR"><a href="#paper-reading-SimCLR" class="headerlink" title="[paper reading] SimCLR"></a>[paper reading] SimCLR</h1><h2 id="PAPER"><a href="#PAPER" class="headerlink" title="PAPER"></a>PAPER</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2002.05709.pdf">A Simple Framework for Contrastive Learning of Visual Representations</a></p>
+<p>Ting Chen, Simon Kornblith, Mohammad Norouzi, Geoffrey Hinton </p>
+<h2 id="REPRESENTATION"><a href="#REPRESENTATION" class="headerlink" title="REPRESENTATION"></a>REPRESENTATION</h2><h3 id="What-is-the-task-Why-How"><a href="#What-is-the-task-Why-How" class="headerlink" title="What is the task? Why? How?"></a>What is the task? Why? How?</h3><h4 id="What"><a href="#What" class="headerlink" title="What"></a>What</h4><p>Learning <strong>effective visual representations</strong> without human supervision is a long-standing problem.</p>
+<h4 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h4><p>Unlabeled data and labeled data. (理想丰满，现实骨感)</p>
+<h4 id="How"><a href="#How" class="headerlink" title="How"></a>How</h4><ul>
+<li>generative<ul>
+<li>DBN、AE、GAN<ul>
+<li>pixel-level expensive，not necessary for representations learning</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>discriminative<ul>
+<li>pretext tasks<ul>
+<li>rely on heuristics to design，limit the generality</li>
+</ul>
+</li>
+<li><strong>contrastive learning</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="What-is-contrastive-learning-Why-How"><a href="#What-is-contrastive-learning-Why-How" class="headerlink" title="What is contrastive learning? Why? How?"></a>What is contrastive learning? Why? How?</h3><h4 id="What-amp-Why"><a href="#What-amp-Why" class="headerlink" title="What &amp; Why"></a>What &amp; Why</h4><ul>
+<li><p>“BERT” in computer vision</p>
+</li>
+<li><p>good representation -&gt; High-level semantic information guides complex combinatorial logic tasks</p>
+<p><img src="/2020/11/24/PR-simclr/why-contrastive-learning.png" alt="why-contrastive-learning"></p>
+</li>
+</ul>
+<h4 id="How-1"><a href="#How-1" class="headerlink" title="How"></a>How</h4><ol>
+<li><p>如何建立正例和负例，尽可能提升pair能cover的semantic relation</p>
+</li>
+<li><p>如何定义目标函数，将正例pair与负例pair区分</p>
+<p>Score(f(x), f(x+ )) ≫ Score(f(x), f(x- ))</p>
+</li>
+</ol>
+<h2 id="What-is-SimCLR"><a href="#What-is-SimCLR" class="headerlink" title="What is SimCLR?"></a>What is SimCLR?</h2><p>Simple framework</p>
+<ul>
+<li>data augmentations</li>
+<li>a learnable nonlinear transformation</li>
+<li>larger batch sizes and more training steps</li>
+</ul>
+<h2 id="Why-1"><a href="#Why-1" class="headerlink" title="Why?"></a>Why?</h2><ul>
+<li><p>Theory</p>
+<ul>
+<li><p>complexity</p>
+</li>
+<li><p>avoided by performing simple random cropping (with resizing) of target images</p>
+<p><img src="/2020/11/24/PR-simclr/resize-components.png" alt="resize-components"></p>
+</li>
+</ul>
+</li>
+<li><p>Amount number of experiments</p>
+</li>
+</ul>
+<h2 id="How-2"><a href="#How-2" class="headerlink" title="How?"></a>How?</h2><ul>
+<li><p>Positive pairs and negative pairs</p>
+<p>minibatch of N examples -&gt; 2N data points -&gt; 1: 2(N - 1)</p>
+</li>
+<li><p>Object function</p>
+<p><img src="/2020/11/24/PR-simclr/loss-function.png" alt="loss-function"></p>
+</li>
+<li><p>Training with large batch size</p>
+</li>
+<li><p>Global BN</p>
+</li>
+</ul>
+<p><img src="/2020/11/24/PR-simclr/pipeline.png" alt="pipeline"></p>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><ul>
+<li><p>数据扩增的重要性、必要性（数据扩增方式选择）</p>
+</li>
+<li><p>大模型（model size）的重要性、必要性</p>
+</li>
+<li><p><strong>非线性projection head的重要性、必要性</strong></p>
+</li>
+<li><p>Normalized cross entropy loss with adjustable temperature works better than alternatives</p>
+</li>
+<li><p>大batch、长训练的优越性</p>
+</li>
+</ul>
+<p><img src="/2020/11/24/PR-simclr/performance.png" alt="performance"></p>
+<blockquote>
+<p>less is more (少即是多)</p>
+</blockquote>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h2><ul>
+<li><p>特征空间中的距离远近？类间？样本间？</p>
+<p><img src="/2020/11/24/PR-simclr/%E6%A0%B7%E6%9C%AC%E7%A9%BA%E9%97%B4.png" alt="样本空间"></p>
+</li>
+<li><p>Bigger model？深度？宽度？</p>
+</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li>paper：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2002.05709.pdf"> https://arxiv.org/pdf/2002.05709.pdf</a></li>
+<li>Github：<a target="_blank" rel="noopener" href="https://github.com/google-research/simclr"> https://github.com/google-research/simclr</a></li>
+<li>Blog：<a target="_blank" rel="noopener" href="https://ankeshanand.com/blog/2020/01/26/contrative-self-supervised-learning.html">https://ankeshanand.com/blog/2020/01/26/contrative-self-supervised-learning.html </a></li>
+</ul>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#paper-reading-SimCLR"><span class="toc-text">[paper reading] SimCLR</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PAPER"><span class="toc-text">PAPER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REPRESENTATION"><span class="toc-text">REPRESENTATION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-the-task-Why-How"><span class="toc-text">What is the task? Why? How?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#What"><span class="toc-text">What</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Why"><span class="toc-text">Why</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#How"><span class="toc-text">How</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-contrastive-learning-Why-How"><span class="toc-text">What is contrastive learning? Why? How?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#What-amp-Why"><span class="toc-text">What &amp; Why</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#How-1"><span class="toc-text">How</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-SimCLR"><span class="toc-text">What is SimCLR?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-1"><span class="toc-text">Why?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-2"><span class="toc-text">How?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Performance"><span class="toc-text">Performance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-amp-A"><span class="toc-text">Q &amp; A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+  
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2020/11/14/15-Bundle-Adjustment/" class="next">下一篇 Bundle Adjustment &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Luoadore using
+      <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/27325158?s=460&u=943b90cabcb08165803593378c6afd6bca967ec5&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://github.com/Luoadore/">
+        
+          <i class="icon iconfont icongithub" title="github"></i> 
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a href="mailto:luoluomayday@gmail.com">
+        
+          <i class="icon iconfont iconyoujian" title="luoluomayday@gmail.com"></i> 
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=yuDQY0YAAAAJ&hl=zh-CN">
+        
+          <i class="icon iconfont icongoogle" title="GoogleSchilar"></i>
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/%E9%9B%85%E6%A5%A0-%E9%9B%92-84482b91/">
+        
+          <i class="icon iconfont iconlinkedin" title="LinkedIn"></i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+    
+      backgroundImages.push('http://cdn.chenqihulk.cn/luo.jpeg');
+    
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":null,"timer":false,"delay":1500000,"shuffle":false,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = 576094;
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
