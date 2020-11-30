@@ -1,0 +1,552 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="zh_Hans">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <meta name="author" content="Luoadore">
+  
+  
+  
+  
+    <meta name="description" content="[TOC]
+Image Multilabel Recognition一、OverviewDefinition
+What？​        People seem like take photos for wonderful views as a precious collections in daily life. Therefore, it’s  absolutely necessary ...">
+  
+  <title>Image Multilabel Recognition [ Luoadore ]</title>
+  
+  
+    <link rel="shortcut icon" href="/hollow.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2020/11/24/PR-simclr/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        [paper reading] SimCLR
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="https://avatars0.githubusercontent.com/u/27325158?s=460&u=943b90cabcb08165803593378c6afd6bca967ec5&v=4"/>
+          <div id="homelink">Luoadore</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/interests">Hobbies</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  
+
+  <article id="post" style="padding: 10px;">
+    <h1>Image Multilabel Recognition</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2020-11-30</span>
+      
+        <span id = "post-title-updated">修改于 2020-11-30</span>
+      
+      
+      
+        <span id = "post-title-tags">
+          标签
+          
+          
+            
+            
+            <a href="/tags/image-tagging/">image tagging</a>
+          
+        </span>
+      
+      <span id="/2020/11/30/imgTags-EN/" class="leancloud-visitors" data-flag-title="Image Multilabel Recognition">
+        <i class="leancloud-visitors-count"></i>
+        <em class="post-meta-item-text"> views </em>
+      </span>
+    </p>
+    
+    <p>[TOC]</p>
+<h1 id="Image-Multilabel-Recognition"><a href="#Image-Multilabel-Recognition" class="headerlink" title="Image Multilabel Recognition"></a>Image Multilabel Recognition</h1><h2 id="一、Overview"><a href="#一、Overview" class="headerlink" title="一、Overview"></a>一、Overview</h2><p><code>Definition</code></p>
+<h3 id="What？"><a href="#What？" class="headerlink" title="What？"></a>What？</h3><p>​        People seem like take photos for wonderful views as a precious collections in daily life. Therefore, it’s  absolutely necessary for them to arrange the photos efficiently. The key problem is how to identity the scenes in album photos using artificial intelligence technology.</p>
+<p><img src="/2020/11/30/imgTags-EN/results.png" alt="results"></p>
+<h3 id="Label-systems？Properties？"><a href="#Label-systems？Properties？" class="headerlink" title="Label systems？Properties？"></a>Label systems？Properties？</h3><h4 id="Label-systems"><a href="#Label-systems" class="headerlink" title="Label systems"></a>Label systems</h4><p>There are mainly <strong>eight</strong> parent categories in the label system according to the frequency of the scenes appears in the album photos. For example:</p>
+<ul>
+<li><p>Human: adult, group photo, etc;</p>
+</li>
+<li><p>Animal: cat, dog, etc; long tail labels contained, such as poodle, Scottish fold;</p>
+</li>
+<li><p>Scene: supermarket, office, architecture, etc;</p>
+<p>……</p>
+</li>
+</ul>
+<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h4><p>The label system has properties of <code>4N</code> as follows, which are the most hardest for this algorithm.</p>
+<ul>
+<li><p><code>Non-systematic</code>: not in the hierarchical relationship form of both parents and children categories; </p>
+</li>
+<li><p><code>Non-atomic</code>：A single category covers a wide range of forms and types. For example, class “sing” covers a great variety of types, it can be one person singing while standing there, it can be many people stand up and singing, it also can be many people singing while doing some movements;</p>
+</li>
+<li><p><code>Non-independence</code>：correlation, the rlationship between the two categories is neither mutually exclusive nor identical. For example, class “painting” and class “cartoon”, if the image is one character painted from one cartoon, the annotation of the image contains both of them;</p>
+</li>
+<li><p><code>Non-unity</code>：causality, there is a situation occurs one class where another class exist. For example, there must have class “tree” when the image mainly in “forest”.</p>
+</li>
+</ul>
+<p>Next, we will give a detailed explain of three modules:   dataset, algorithm and Inference.</p>
+<h2 id="二、Construction-of-Dataset"><a href="#二、Construction-of-Dataset" class="headerlink" title="二、Construction of Dataset"></a>二、Construction of Dataset</h2><p><code>management of data</code></p>
+<h3 id="Initialization"><a href="#Initialization" class="headerlink" title="Initialization"></a>Initialization</h3><p>In order to ensure the <code>integrity</code> and <code>diversity</code> of the dataset, the construction to initial the dataset is mainly contains the following three aspects.</p>
+<h4 id="Open-source-dataset"><a href="#Open-source-dataset" class="headerlink" title="Open source dataset"></a>Open source dataset</h4><ul>
+<li><p>open-images v5 [1]</p>
+<p>Open images dataset is proposed by Google，there are details of basic information of this dataset in paper <a target="_blank" rel="noopener" href="https://storage.googleapis.com/openimages/web/index.html">OID-dataset</a>. In addition, the <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1811.00982.pdf">OID-paper</a> also give a detail introduction of construction of dataset, annotation process of dataset, train procedure of dataset and evaluation of model trained using the dataset. Since all the data is from Flickr, it is more realistic and in line with the real scene. It contains a total of 8000 classes on 1.9M images, The images are very diverse and often contain complex scenes with several objects (8.3 per image on average). It’s suit for dataset initialization. Besides, the methods and experiences for multilabel recognition and dataset construction are also worthy for useable.</p>
+<ul>
+<li>Mapping of labels: translate the labels in Open Images dataset and mapping the corrsponding labels in our project;</li>
+<li>Construction of dataset：extract the images with the annotations which have been verified by human according to the labels mapping.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Crawled-data"><a href="#Crawled-data" class="headerlink" title="Crawled data"></a>Crawled data</h4><ul>
+<li><p>Lack of the open source dataset</p>
+<p>Our project is more focus on the scene of our nation, so it’s easily to find out there are three lacks of the Open Images dataset:</p>
+<ul>
+<li>The scenes that foreign contries don’t cover, such as the id card in our nation;</li>
+<li>The scenes that different from the foreign contries and China, and absolutely insufficient coverage. such as the museum; </li>
+<li>Lack of the images of long tail labels, such as the fine-grained categories.</li>
+</ul>
+<p>Crawled data according to those three impacts for data supplement. </p>
+</li>
+<li><p>Coverage defined by customer</p>
+<p>We crawl some data according to the example images of some labels provided by customer while these labels performance are not good on the test dataset of customer.</p>
+</li>
+</ul>
+<h4 id="Internal-accumulated-data"><a href="#Internal-accumulated-data" class="headerlink" title="Internal accumulated data"></a>Internal accumulated data</h4><p>The data accumulated during the collabrate with other internal group will more fit for scene in China, so I add these data according to the label mapping.</p>
+<p>We exctract the data using the following two methods via internal tools: </p>
+<ul>
+<li>Key words crawling: crawl using the key words directly and verified by annotaor;</li>
+<li>Crawl by image search: Save the corresponding image to the example via image searching.</li>
+</ul>
+<p>The initial dataset has a number of 900k images and every image has around 4 labels in annotation.</p>
+<h1 id="Data-Cleaning"><a href="#Data-Cleaning" class="headerlink" title="Data Cleaning"></a>Data Cleaning</h1><p>There are two important problems in a big dataset, one is <strong>label missing</strong>, another is <strong>label mistaken</strong>。</p>
+<p>Data cleaning means using variety of methods to improve the quality of dataset, it’s the basic crucial factor for imporing the performance of model and algorithm.</p>
+<p>Kaiming He[3] suggested that the performance of one label is relevant to the numbers of images, only if the numbers are bigger enough and then the shortage of the data has no affects to the model. </p>
+<p>So there we have a assumption that we already have the baseline model and the test results of it, therefore, we can distinguish the labels which are amount number of data and doesn’t influence by the shortage of data itself, or some labels are easy to distinguish. Thus we focus on cleaning some labels which needs.</p>
+<p>The cleaning method is the same for above two shortages:</p>
+<ul>
+<li><ol>
+<li>Extract label data</li>
+</ol>
+<p>Extract all the data under one label.</p>
+</li>
+<li><ol start="2">
+<li>Construct the pseudo labels</li>
+</ol>
+<p>The labels of one image are contained the following parts:</p>
+<ul>
+<li>Annotations of itself;</li>
+</ul>
+</li>
+<li><p>Labels of the model top5 prediction results which confidences are above the threshold of 0.5;</p>
+<ul>
+<li>The prediction results of competing products (mainly Baidu image recognition API) are mapped to our project tags.</li>
+</ul>
+</li>
+<li><ol start="3">
+<li>Cleaning</li>
+</ol>
+<ul>
+<li>Annotation standard: Refine and write the annotation document. The document focuses on defining the unique attributes of each label, therefore, it can guide the annotators to focus on the distinction;</li>
+<li>Visualize the annotation: Randomly sample some image annotations and visualize that for checking and correcting, updating the attributes of each label additionally. Fianlly, the accuracy of annotation is about 90%;</li>
+<li>Update the origin dataset.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Dataset-division"><a href="#Dataset-division" class="headerlink" title="Dataset division"></a>Dataset division</h3><p>We use 10-fold division and 1/10 is divide into test/evaluation dataset while others are train dataset.</p>
+<h2 id="三、Algorithm-and-processing"><a href="#三、Algorithm-and-processing" class="headerlink" title="三、Algorithm and processing"></a>三、Algorithm and processing</h2><p><code>Solve the problem</code></p>
+<h3 id="Network-structure"><a href="#Network-structure" class="headerlink" title="Network structure"></a>Network structure</h3><h4 id="Early-attempts"><a href="#Early-attempts" class="headerlink" title="Early attempts"></a>Early attempts</h4><p>Diveding the labels into 12 parent-classes and train models separately using 12 datasets, then merge the networks in one for inference.</p>
+<p>But it’s hard to optimize because of the properties of label systems themselves.</p>
+<h4 id="Baseline-decision"><a href="#Baseline-decision" class="headerlink" title="Baseline decision"></a>Baseline decision</h4><p>We decide use these strategies to build our <strong>baseline</strong> drawing on the experience of the paper on Open Images dataset:</p>
+<ul>
+<li>Choose the Resnet[2] as a backbone model, which has been outperforming on challenge ImageNet2015, the trade-off of performance and speed for convergence with high accuracy is acctractive;</li>
+<li>Every neural of output layer is seen as a individual bianry classifier, and the loss function uses the basic Binary crossentropy loss[4];</li>
+<li>Training end-to-end and speed up using multi-gpu.</li>
+</ul>
+<p>Then we can optimize according to the test results of the baseline and feedback from customer.</p>
+<h3 id="Algorithm-optimization"><a href="#Algorithm-optimization" class="headerlink" title="Algorithm optimization"></a>Algorithm optimization</h3><h4 id="Traning-and-convergence"><a href="#Traning-and-convergence" class="headerlink" title="Traning and convergence"></a>Traning and convergence</h4><p><em>Ablation study is useful for finding the best hyperparameters.</em></p>
+<h5 id="Learning-rate-warmup"><a href="#Learning-rate-warmup" class="headerlink" title="Learning rate warmup"></a>Learning rate warmup</h5><p>All the parameters of network before training are initial using <strong>xavier</strong> initialisation[5] which are typically random values and therefore far away from the final solution. Using a too large learning rate may result in numerical instability. In the warmup heuristic, we use a small learning rate at the beginning and then increase the learning rate from 0 to the initial learning rate linearly when the training process is stable.[6]</p>
+<h5 id="Pretrain-model"><a href="#Pretrain-model" class="headerlink" title="Pretrain model"></a>Pretrain model</h5><p>Transfer the knowledge of model trained on the large open source dataset which is helpful for training precision and the speed of convergence.[7] [8]</p>
+<h5 id="Cosine-learning-rate-decay"><a href="#Cosine-learning-rate-decay" class="headerlink" title="Cosine learning rate decay"></a>Cosine learning rate decay</h5><p>Cosine decay with learning rate warm up will more effeicient for training.  Get the learning rete to decay cyclicity from initial value to 0.[13] We define that the whole batches are T, when training process gets into the t-th batch, the learning rate should be as the equation as follow:</p>
+<p><img src="/2020/11/30/imgTags-EN/coslr.png" alt="img"></p>
+<h4 id="Data-imbalance"><a href="#Data-imbalance" class="headerlink" title="Data imbalance"></a>Data imbalance</h4><p>The distribution of data is always imbalance, some labels have a large number of data while the majority labels are in the situation lack of data.</p>
+<p>Whether the assumptions of the data distribution for network or construction for loss function, the data imbalance impacts on deep model learning seriously. [9] </p>
+<p>So according to these two assumptions, we add two optimizations from two perspectives. One is the feature optimization and another is loss function optimization, both are focus on reducing the affect of  training performance when data  is imbalanced.</p>
+<h5 id="Feature-level-Focal-loss"><a href="#Feature-level-Focal-loss" class="headerlink" title="Feature level - Focal loss"></a>Feature level - Focal loss</h5><p>kaiming He proposed the <strong>Focal loss</strong>[10] for avoid the easy negtive samples that contribute no useful learning signal for model training. On the one hand, the data distribution is imbalance; on the other hand, although the loss item of easy example is small, the large number of these easy example resulting the sum loss in the whole loss function, which lead to the easy labels and finally degenerate model.</p>
+<p>We propose to reshape the loss function according to the focal loss and down-weight easy examples and focus on training on the hard distinguish samples of labels using sigmoid active function. </p>
+<p><img src="/2020/11/30/imgTags-EN/fc-loss.jpg" alt="fc-loss"></p>
+<p>Parameters choosen need to do ablation study. </p>
+<h5 id="Data-level-data-augmentation"><a href="#Data-level-data-augmentation" class="headerlink" title="Data level - data augmentation"></a>Data level - data augmentation</h5><p>Data augmentation is efficient for improving the performance of model, we use the <strong>rasampling</strong> method to effficiently increase the frequency of weak tags in unbalanced data[3].</p>
+<p>As for multi-label, the resampling needs to focus on two factor:</p>
+<ul>
+<li><p>computation of the replication factor **r(h) **</p>
+<ul>
+<li><p>Label-level：</p>
+<p><img src="/2020/11/30/imgTags-EN/resampling.png" alt="resampling"></p>
+<p>For each tag or label, the replication of it are in the interval of [1, r(h) ].</p>
+</li>
+<li><p>Image-level：Given an image I with (possibly multiple) hashtags {hi}, the image-level replication factor for I is computed as r(I) = maxi r(hi). </p>
+</li>
+</ul>
+</li>
+<li><p>Choosen of the resampling function **φ(x) **</p>
+<ul>
+<li><p>uniform</p>
+<p>φ(x) = x </p>
+</li>
+<li><p>square root</p>
+<p>φ(x) = √x, square root of the x </p>
+</li>
+</ul>
+</li>
+</ul>
+<p>There is an another threshold need to select for representing the target frequence t of the every labels.</p>
+<p>The following table shows the comparison of performance improvement when their recall is nearly similar.</p>
+<table>
+<thead>
+<tr>
+<th>version</th>
+<th>optimization strategy</th>
+<th>AP improvement</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v1.0</td>
+<td>baseline</td>
+<td>-</td>
+</tr>
+<tr>
+<td>v2.0</td>
+<td>baseline + resampling</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>v2.1</td>
+<td>baseline + resampling + focal loss</td>
+<td>3.2%</td>
+</tr>
+</tbody></table>
+<h4 id="Small-scale-Labels"><a href="#Small-scale-Labels" class="headerlink" title="Small scale Labels"></a>Small scale Labels</h4><p>The objects of some labels are small scale in the entire image such as the sunglass a man wearing, are always hard for model to recoginize. Therefore we use the <strong>object detection model</strong> to cooprate with our model and it performance well to those small scale objects. Directly use the SSD model[12] training on COCO dataset is enough for our project. </p>
+<h3 id="Prior-relationship-mapping"><a href="#Prior-relationship-mapping" class="headerlink" title="Prior relationship mapping"></a>Prior relationship mapping</h3><p>I proposed a <strong>prior relationship mapping</strong> for post-processing to complement the prior semantic knowledge according to the properties of label system itself.</p>
+<p>Part of the mapping example is as follows:</p>
+<p><img src="/2020/11/30/imgTags-EN/graph.png" alt="graph"></p>
+<p>The performance of self test and feedback is quite well, <strong>especially for the parent labels</strong>, such as the “sports” labels which contains a great varety of labels and the features are not unity for model learning.</p>
+<p>Through out the iteration of the whole project, the combination of actual scenarios in real-world and requirements of the project is improtant for success.</p>
+<h2 id="四、Inference"><a href="#四、Inference" class="headerlink" title="四、Inference"></a>四、Inference</h2><p>The precision and recall of each class is very important, so we give a strong assumption that our self test dataset is clean enought to 95% accuracy of their annotations. That is, the labels missing or labels incorrect ratio is less than 5%.</p>
+<p>Then I propose the <strong>precision-recall curve</strong>[11] strategy to get a best performance when the recall is kept at a certain value.</p>
+<p>The precision-recall curve is computed according to the inference results of our self test dataset and then, we choose different threshold of one label and get the precision with exact recall. For example, the following figure is a PR curve of one label.</p>
+<p><img src="/2020/11/30/imgTags-EN/%E5%9C%BA%E6%99%AF-%E6%9C%8D%E8%A3%85%E5%BA%97.jpg" alt="场景-服装店"></p>
+<p>If we want to get to the standard of 90%/50% of precision and recall, we can choose threshold 0.6 according to the curve above.</p>
+<p>Finally, the performance is beyond the expectation and has a smooth delivery.</p>
+<h2 id="五、Expand"><a href="#五、Expand" class="headerlink" title="五、Expand"></a>五、Expand</h2><p><code>Breadth of the project</code></p>
+<h4 id="Extension-and-construction-of-label-system"><a href="#Extension-and-construction-of-label-system" class="headerlink" title="Extension and construction of label system"></a>Extension and construction of label system</h4><h4 id="Customized-service"><a href="#Customized-service" class="headerlink" title="Customized service"></a>Customized service</h4><h4 id="Extral-algorithm-attmept"><a href="#Extral-algorithm-attmept" class="headerlink" title="Extral algorithm attmept"></a>Extral algorithm attmept</h4><ul>
+<li>NAS: autoML for hyperparameters search</li>
+<li>Distillation:  real time application</li>
+<li>Knowledge graph: construction of label system</li>
+<li>Cluster: label mining</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1811.00982.pdf">The Open Images Dataset V4</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.03385.pdf">Deep Residual Learning for Image Recognition</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_ECCV_2018/html/Dhruv_Mahajan_Exploring_the_Limits_ECCV_2018_paper.html">Exploring the Limits of Weakly Supervised Pretraining </a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/nn.html?highlight=torch%20nn%20bcewithlogitsloss#torch.nn.BCEWithLogitsLoss">torch.nn.BCEWithLogitsLoss</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf?source=post_page---------------------------">Understanding the difficulty of training deep feedforward neural networks </a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1812.01187.pdf">Bag of Tricks for Image Classification with Convolutional Neural Networks</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/torchvision/models.html">pytorch model zoo</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="http://210.28.132.67/weixs/project/CNNTricks/CNNTricks.html">Must Know Tips/Tricks in Deep Neural Networks</a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://pdfs.semanticscholar.org/62e8/1797fff75603a3d7c7759e6efac4fd2b6b31.pdf?_ga=2.170141984.1403234574.1586344305-2059634718.1586344305">The Impact of Imbalanced Training Data for Convolutional Neural Networks</a></p>
+<p>[10] <a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf">Focal Loss for Dense Object Detection</a></p>
+<p>[11] <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve">sklearn.metrics.precision_recall_curve</a></p>
+<p>[12] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.02325.pdf">SSD: Single Shot MultiBox Detector</a> </p>
+<p>[13] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1608.03983.pdf">SGDR: Stochastic Gradient Descent with Warm Restarts(2016)</a></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Image-Multilabel-Recognition"><span class="toc-text">Image Multilabel Recognition</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Overview"><span class="toc-text">一、Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What%EF%BC%9F"><span class="toc-text">What？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Label-systems%EF%BC%9FProperties%EF%BC%9F"><span class="toc-text">Label systems？Properties？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Label-systems"><span class="toc-text">Label systems</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Properties"><span class="toc-text">Properties</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Construction-of-Dataset"><span class="toc-text">二、Construction of Dataset</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Initialization"><span class="toc-text">Initialization</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Open-source-dataset"><span class="toc-text">Open source dataset</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Crawled-data"><span class="toc-text">Crawled data</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Internal-accumulated-data"><span class="toc-text">Internal accumulated data</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Data-Cleaning"><span class="toc-text">Data Cleaning</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dataset-division"><span class="toc-text">Dataset division</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Algorithm-and-processing"><span class="toc-text">三、Algorithm and processing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-structure"><span class="toc-text">Network structure</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Early-attempts"><span class="toc-text">Early attempts</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Baseline-decision"><span class="toc-text">Baseline decision</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Algorithm-optimization"><span class="toc-text">Algorithm optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Traning-and-convergence"><span class="toc-text">Traning and convergence</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Learning-rate-warmup"><span class="toc-text">Learning rate warmup</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Pretrain-model"><span class="toc-text">Pretrain model</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Cosine-learning-rate-decay"><span class="toc-text">Cosine learning rate decay</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data-imbalance"><span class="toc-text">Data imbalance</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Feature-level-Focal-loss"><span class="toc-text">Feature level - Focal loss</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Data-level-data-augmentation"><span class="toc-text">Data level - data augmentation</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Small-scale-Labels"><span class="toc-text">Small scale Labels</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prior-relationship-mapping"><span class="toc-text">Prior relationship mapping</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Inference"><span class="toc-text">四、Inference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Expand"><span class="toc-text">五、Expand</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Extension-and-construction-of-label-system"><span class="toc-text">Extension and construction of label system</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Customized-service"><span class="toc-text">Customized service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Extral-algorithm-attmept"><span class="toc-text">Extral algorithm attmept</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol>
+  </div>
+</div>
+
+  
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2020/11/24/PR-simclr/" class="next">下一篇 [paper reading] SimCLR &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Luoadore using
+      <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/27325158?s=460&u=943b90cabcb08165803593378c6afd6bca967ec5&v=4">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://github.com/Luoadore/">
+        
+          <i class="icon iconfont icongithub" title="github"></i> 
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a href="mailto:luoluomayday@gmail.com">
+        
+          <i class="icon iconfont iconyoujian" title="luoluomayday@gmail.com"></i> 
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=yuDQY0YAAAAJ&hl=zh-CN">
+        
+          <i class="icon iconfont icongoogle" title="GoogleSchilar"></i>
+        
+      </a>
+    </li>
+  
+    <li>
+      
+        
+      
+      <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/%E9%9B%85%E6%A5%A0-%E9%9B%92-84482b91/">
+        
+          <i class="icon iconfont iconlinkedin" title="LinkedIn"></i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+    
+      backgroundImages.push('http://cdn.chenqihulk.cn/luo.jpeg');
+    
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":null,"timer":false,"delay":1500000,"shuffle":false,"count":12};
+var unsplashConfig = {"gravity":"center"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+
+var backgroundColor = 576094;
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
