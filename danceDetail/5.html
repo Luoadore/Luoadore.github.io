@@ -18,9 +18,9 @@
   
   
   
-    <meta name="description" content="Bundle AdjustmentBundle adjustment is a state estimation technique that is used to estimate the location of points in the environment, and those points have been estimated from camera images. And w...">
+    <meta name="description" content="">
   
-  <title>Bundle Adjustment [ Luoadore ]</title>
+  <title>【深圳分网】反乌托邦序幕SCREAM翻跳 [ Luoadore ]</title>
   
   
     <link rel="shortcut icon" href="/hollow.ico">
@@ -41,24 +41,6 @@
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2020/11/24/PR-simclr/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        [paper reading] SimCLR
-      </div>
-    </div>
-  
-  
-    <div class="item next">
-      <a href="/2020/11/14/14-SIFT/">
-        <div class="item-icon"></div>
-      </a>
-      <div class="item-title">
-        SIFT
-      </div>
-    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -123,59 +105,40 @@
     <div id="content-inner">
       
       
-  
-
-  <article id="post" style="padding: 10px;">
-    <h1>Bundle Adjustment</h1>
-    <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2020-11-14</span>
-      
-        <span id = "post-title-updated">修改于 2021-02-18</span>
-      
-      
-      
-        <span id = "post-title-tags">
-          标签
-          
-          
-            
-            
-            <a href="/tags/5-Minutes-with-Cyrill/">5 Minutes with Cyrill</a>
-          
-        </span>
-      
-      <span id="/2020/11/14/15-Bundle-Adjustment/" class="leancloud-visitors" data-flag-title="Bundle Adjustment">
-        <i class="leancloud-visitors-count"></i>
-        <em class="post-meta-item-text"> views </em>
-      </span>
-    </p>
+  <article id="page">
+    <style>
+      .interests{
+        text-align: center;
+      }
+      .interests-tag{
+        display: inline-block;
+        font-size: 30px;
+        color: #333;
+        padding: 10px 20px;
+        text-decoration: none !important;
+      }
+      .interests-tag:hover{
+        background: #eee;
+      }
+    </style>
     
-    <h1 id="Bundle-Adjustment"><a href="#Bundle-Adjustment" class="headerlink" title="Bundle Adjustment"></a>Bundle Adjustment</h1><p>Bundle adjustment is a state estimation technique that is used to estimate the location of points in the environment, and those points have been estimated from camera images. And we do not only want to estimate the location of those points in the world, we also want to estimate where the camera was (6DoF camera orientation) when taking images and where it was looking into. So every point typically has 3 coordinates at XY and that coordinate in some coordinate frame. And camera and can be described by 6 parameters. We want to estimate the location of the cameras and the points jointly, so that the area the points actually projected to is minimized. </p>
-<p>So what kind of area we are looking into? We’re looking the so-called reprojection error. That means we assume we know the location of the camera and the location of the points in the environment. And then we projecting the points into the camera image and this gives us a pixel coordinates  of that point so where the  point would be projected to if my estimates would be right. And then we compare this location to the actual location where we observe this point in our image, we trying to minimize this discrepancy. We minimize this over all combinations of observations of feature points, treating them typically as independent of each other so this leads to large least squares problem. </p>
-<p>This technique which is developed in photogrammetry in 1950s and has been use for solving large number of problems and has later been redeveloped in the computer vision community and later in robotics. As it is  very similar for example to the visual slam problem. The bundle adjustment is a statistically optimal solution making some assumptions such as gaussian noise and the dependences how the mapping features into your camera images actually happen, also assuming known data association. There are several assumptions which are not necessary justified in the real world such as known data association, so knowing which point by observing the image location, knowing to which feature point this corresponds to in the real world. That is something that is often not the case I mean to estimate this data association. </p>
-<p>How do we solve this bundle Adjustment approach, we using a least square approach, which typically leads to very large system of equations. So we need to solve the large system of linear equation and that is so large that we typically can not to solve unless we exploit the structure that underlies this bundle adjustment problem. The key thing to explore here is the <strong>sparsity</strong> nature of the problem. That means not all the camera locations we can observe all features, so there’s only a small number of features that we are observing in every camera image. And there’s only small number of dependences and if we build up our big system of linear equations. A lot of those entries in this design matrices will actually be zero. As a result, we can only exploit this sparsity  and need only to take the non-zero values into account. Which allows us to solve the least squares problem in a much more efficient way. If you solve this problems in general,  so taking structure for motion systems that use bundle adjustment to perform the minimization then finding the data association is typically the computationally most complex problem. So solving this least squares problem can be computationally demanding it’s typically not the limiting factor in most applications. So looking for data association in your images, in your observations is still part of the problem which takes most of the time. And this is something that we can easily make errors so if you screw up your data association, then you will not converge to correct solution. So practice you need robust state estimation techniques or robust kernels integrate them into your least squares approach in order to deal with a certain number of outliers in your data association.</p>
-
-  </article>
-  <div class="random-toc-area">
-  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
-  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
-  <div class="random-toc">
-    <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bundle-Adjustment"><span class="toc-text">Bundle Adjustment</span></a></li></ol>
-  </div>
+    
+      <div style="padding: 10px;">
+        <h1 class="center-title">【深圳分网】反乌托邦序幕SCREAM翻跳</h1>
+        <div class="videoDetail" style="padding: 20px 20px;box-sizing:border-box;">
+  <iframe src="//player.bilibili.com/player.html?aid=929221001&bvid=BV1eK4y1Q7tF&cid=298732323&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"
+  style="height:520px;width:100%;" class="videoDetailIframe"> </iframe>
 </div>
+      </div>
+    
+  </article>
 
-  
   
 <nav id="pagination">
   
-    <a href="/2020/11/24/PR-simclr/" class="prev">&larr; 上一篇 [paper reading] SimCLR</a>
-  
 
   
 
-  
-    <a href="/2020/11/14/14-SIFT/" class="next">下一篇 SIFT &rarr;</a>
   
 </nav>
 
