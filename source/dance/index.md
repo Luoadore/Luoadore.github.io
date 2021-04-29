@@ -33,6 +33,12 @@ list: [{
   title: '【深圳分网】反乌托邦序幕SCREAM翻跳',
   cover: 'http://cdn.chenqihulk.cn/WechatIMG1004.jpeg',
   text: ''
+},
+{
+  id: '6',
+  title: '[SZ*ONE]万众瞩目的瞬间 Shoot!Take a Panorama-复古风 IZ\*ONE 解散纪念作',
+  cover: 'http://cdn.chenqihulk.cn/WechatIMG1033.jpeg',
+  text: ''
 }]
 ---
 <!--http://cdn.chenqihulk.cn/14711605170807_.pic_hd.jpg-->
