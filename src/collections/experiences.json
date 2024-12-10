@@ -1,0 +1,37 @@
+[
+	{
+		"dates": "2022 · Present",
+		"role": "Ph.D. Student",
+		"company": "The University of Bonn",
+		"description": "Doing research.",
+		"logo": "/assets/images/experiences/uni-bonn_logo.jpeg"
+	},
+	{
+		"dates": "2019 · 2021",
+		"role": "Computer Vision Engineer",
+		"company": "Tencent",
+		"description": "Responsible for AI algorithm development in industry.",
+		"logo": "/assets/images/experiences/tencentglobal_logo.jepg"
+	},
+	{
+		"dates": "2018 (3 months)",
+		"role": "Intership",
+		"company": "Tencent",
+		"description": "Responsible for AI algorithm development in industry.",
+		"logo": "/assets/images/experiences/tencentglobal_logo.jepg"
+	},
+	{
+		"dates": "2016 · 2019",
+		"role": "Master's degree",
+		"company": "Nankai University",
+		"description": "Hyperspectral image classification",
+		"logo": "/assets/images/experiences/nku.jepg"
+	},
+	{
+		"dates": "2012 · 2016",
+		"role": "Bachelor's degree",
+		"company": "Sichuan University",
+		"description": "Computer science",
+		"logo": "/assets/images/experiences/scu.jepg"
+	}
+]

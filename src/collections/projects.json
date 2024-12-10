@@ -1,0 +1,32 @@
+[
+	{
+		"name": "MV-Match",
+		"description": "MV-Match: Multi-View Matching for Domain-Adaptive Identification of Plant Nutrient Deficiencies.",
+		"image": "/assets/images/projects/MV-Match.png",
+		"url": "https://arxiv.org/abs/2409.00903"
+	},
+	{
+		"name": "RACNet",
+		"description": "Rethinking temporal self-similarity for repetitive action counting.",
+		"image": "/assets/images/projects/racnet.png",
+		"url": "https://arxiv.org/abs/2407.09431"
+	},
+	{
+		"name": "SCRL",
+		"description": "Scene Consistency Representation Learning for Video Scene Segmentation.",
+		"image": "/assets/images/projects/scrl.png",
+		"url": "https://openaccess.thecvf.com/content/CVPR2022/papers/Wu_Scene_Consistency_Representation_Learning_for_Video_Scene_Segmentation_CVPR_2022_paper.pdf"
+	},
+	{
+		"name": "OCSVM",
+		"description": "A Class-Incremental Learning Method Based on One Class Support Vector Machine.",
+		"image": "/assets/images/projects/ocsvm.png",
+		"url": "https://iopscience.iop.org/article/10.1088/1742-6596/1267/1/012007/pdf"
+	},
+	{
+		"name": "HSI-CNN",
+		"description": "HSI-CNN: A novel convolution neural network for hyperspectral image.",
+		"image": "/assets/images/projects/hsi.png",
+		"url": "https://arxiv.org/pdf/1802.10478"
+	}
+]
